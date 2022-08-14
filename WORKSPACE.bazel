@@ -67,6 +67,7 @@ hedron_compile_commands_setup()
 
 http_archive(
     name = "com_grail_bazel_toolchain",
+    sha256 = "f46dce68037252663da6f5e7c240d61e589d756c838c6dfb79a849635cffe9b5",
     strip_prefix = "bazel-toolchain-2ef4bbf579fdc3afbca61f11bb955b8770c75867",
     url = "https://github.com/grailbio/bazel-toolchain/archive/2ef4bbf579fdc3afbca61f11bb955b8770c75867.zip",
 )
@@ -79,6 +80,7 @@ load("@com_grail_bazel_toolchain//toolchain:rules.bzl", "llvm_toolchain")
 
 llvm_toolchain(
     name = "llvm_toolchain",
+    cxx_standard = "c++20",
     llvm_version = "14.0.0",
 )
 
