@@ -1,7 +1,7 @@
 #ifndef ECSACT_PARSE_STATUS_H
 #define ECSACT_PARSE_STATUS_H
 
-#include <ecsact/parse/string.h>
+#include "ecsact/parse/string.h"
 
 typedef enum {
 	/**
