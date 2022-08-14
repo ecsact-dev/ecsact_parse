@@ -4,9 +4,9 @@ load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
     name = "bazel_sundry",
-    sha256 = "efe72586497e6b2143db20eeddf72d0f09dc25d8b7e1463dcb778868ba28d03e",
-    strip_prefix = "bazel_sundry-4f2862174e6ae05cd894ac04c71e6b306c411449",
-    url = "https://github.com/seaube/bazel_sundry/archive/4f2862174e6ae05cd894ac04c71e6b306c411449.zip",
+    sha256 = "4ee3c8e29eb3d4f34b1ca7d2374437b5c6f0fd62316f90e38e9f32119421466d",
+    strip_prefix = "bazel_sundry-de785e9f424948949cafed3ee8bee9689dc84a80",
+    url = "https://github.com/seaube/bazel_sundry/archive/de785e9f424948949cafed3ee8bee9689dc84a80.zip",
 )
 
 http_archive(
