@@ -1,0 +1,66 @@
+workspace(name = "ecsact_parse")
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+http_archive(
+    name = "bazel_sundry",
+    sha256 = "efe72586497e6b2143db20eeddf72d0f09dc25d8b7e1463dcb778868ba28d03e",
+    strip_prefix = "bazel_sundry-4f2862174e6ae05cd894ac04c71e6b306c411449",
+    url = "https://github.com/seaube/bazel_sundry/archive/4f2862174e6ae05cd894ac04c71e6b306c411449.zip",
+)
+
+http_archive(
+    name = "ecsact_runtime",
+    sha256 = "c34b92dd2cde6b410cb6461d48f9c79768ae1d6f38fdb96ca0945c3310124f2e",
+    strip_prefix = "ecsact_runtime-76fc03ba9595b93fc3295709f60af6a58df9b684",
+    url = "https://github.com/ecsact-dev/ecsact_runtime/archive/76fc03ba9595b93fc3295709f60af6a58df9b684.zip",
+)
+
+_LEXY_BUILD_FILE_CONTENT = """
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "lexy",
+    visibility = ["//visibility:public"],
+    includes = ["include"],
+    hdrs = glob(["include/**/*.hpp"]),
+    srcs = ["src/input/file.cpp"],
+    strip_include_prefix = "include",
+    copts = select({
+        "@bazel_tools//tools/cpp:msvc": ["/std:c++latest"],
+        "//conditions:default": ["-std=c++20"],
+    }),
+)
+"""
+
+http_archive(
+    name = "lexy",
+    build_file_content = _LEXY_BUILD_FILE_CONTENT,
+    sha256 = "59607e4e2691c0c03068f1f9a7043f2d4703f5c9c48ec42a318b43aae9468386",
+    url = "https://github.com/foonathan/lexy/releases/download/v2022.05.1/lexy-src.zip",
+)
+
+http_archive(
+    name = "magic_enum",
+    sha256 = "5e7680e877dd4cf68d9d0c0e3c2a683b432a9ba84fc1993c4da3de70db894c3c",
+    strip_prefix = "magic_enum-0.8.0",
+    url = "https://github.com/Neargye/magic_enum/archive/refs/tags/v0.8.0.tar.gz",
+)
+
+http_archive(
+    name = "com_google_googletest",
+    sha256 = "2289a098c17bbe4c9ce2abd7283d3638c68b2f889f398105a8b8846356ed176f",
+    strip_prefix = "googletest-7274ec186442c96e4c7dcc99c684a03e5db2ff48",
+    url = "https://github.com/google/googletest/archive/7274ec186442c96e4c7dcc99c684a03e5db2ff48.zip",
+)
+
+http_archive(
+    name = "hedron_compile_commands",
+    sha256 = "106d0e68904c347a4b51b1bc84d68e6e39ebea861fc9e28d6090674e3d737b32",
+    strip_prefix = "bazel-compile-commands-extractor-8fd960d28648d982b90cf6e152c43ea159520cf3",
+    url = "https://github.com/hedronvision/bazel-compile-commands-extractor/archive/8fd960d28648d982b90cf6e152c43ea159520cf3.tar.gz",
+)
+
+load("@hedron_compile_commands//:workspace_setup.bzl", "hedron_compile_commands_setup")
+
+hedron_compile_commands_setup()

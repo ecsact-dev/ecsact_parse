@@ -1,0 +1,46 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+load("//bazel:copts.bzl", "copts")
+
+# keep sorted
+_TESTS = [
+    "action_statement",
+    "component_statement",
+    "entity_constraint_statement",
+    "field_statement",
+    "import_statement",
+    "none_statement",
+    "package_statement",
+    "sequential_statements",
+    "system_component_statement",
+    "system_generates_statement",
+    "system_statement",
+]
+
+[cc_test(
+    name = test,
+    srcs = ["parse_test_{}.cc".format(test)],
+    copts = copts,
+    deps = [
+        "//:ecsact_parse",
+        "@com_google_googletest//:gtest",
+        "@com_google_googletest//:gtest_main",
+    ],
+) for test in _TESTS]
+
+cc_test(
+    name = "test",
+    srcs = ["parse_test_example_files.cc"],
+    copts = copts,
+    data = [
+        "//example:example.ecsact",
+        "//example:extras.ecsact",
+    ],
+    deps = [
+        "//:ecsact_parse",
+        "@bazel_sundry//bazel_sundry:runfiles",
+        "@bazel_tools//tools/cpp/runfiles",
+        "@com_google_googletest//:gtest",
+        "@com_google_googletest//:gtest_main",
+        "@magic_enum",
+    ],
+)

@@ -1,0 +1,30 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+load("//bazel:copts.bzl", "copts")
+
+package(default_visibility = ["//visibility:public"])
+
+cc_library(
+    name = "ecsact_parse",
+    srcs = [
+        "ecsact/detail/check_set.hh",
+        "ecsact/detail/fixed_stack.hh",
+        "ecsact/detail/grammar.hh",
+        "ecsact/detail/read_util.hh",
+        "ecsact/detail/stack_util.hh",
+        "ecsact/ecsact_parse.cc",
+        "ecsact/ecsact_parse_statement.cc",
+    ],
+    hdrs = [
+        "ecsact/parse.h",
+        "ecsact/parse/error.h",
+        "ecsact/parse/statements.h",
+        "ecsact/parse/status.h",
+        "ecsact/parse/string.h",
+    ],
+    copts = copts,
+    deps = [
+        "@ecsact_runtime//:common",
+        "@lexy",
+        "@magic_enum",
+    ],
+)
