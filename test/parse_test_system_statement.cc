@@ -1,8 +1,8 @@
 #include "gtest/gtest.h"
 
-#include <ecsact/parse.h>
 #include <string_view>
 #include <string>
+#include "ecsact/parse.h"
 
 using namespace std::string_literals;
 

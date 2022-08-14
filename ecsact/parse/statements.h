@@ -2,8 +2,8 @@
 #define ECSACT_PARSE_STATEMENTS_H
 
 #include <stdint.h>
-#include <ecsact/parse/string.h>
-#include <ecsact/runtime/common.h>
+#include "ecsact/parse/string.h"
+#include "ecsact/runtime/common.h"
 
 typedef enum {
 	ECSACT_STATEMENT_NONE,

@@ -3,7 +3,7 @@
 #include <string>
 #include <string_view>
 #include <filesystem>
-#include <ecsact/parse.h>
+#include "ecsact/parse.h"
 #include "magic_enum.hpp"
 #include "bazel_sundry/runfiles.hh"
 

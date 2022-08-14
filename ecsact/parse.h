@@ -1,9 +1,9 @@
 #ifndef ECSACT_PARSER_H
 #define ECSACT_PARSER_H
 
-#include <ecsact/parse/statements.h>
-#include <ecsact/parse/status.h>
-#include <ecsact/parse/error.h>
+#include "ecsact/parse/statements.h"
+#include "ecsact/parse/status.h"
+#include "ecsact/parse/error.h"
 
 typedef enum {
 	ECSACT_PARSE_CALLBACK_STOP,
