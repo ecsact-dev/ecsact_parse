@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include "ecsact/parse/string.h"
 #include "ecsact/runtime/common.h"
+#include "ecsact/runtime/definitions.h"
 
 typedef enum {
 	ECSACT_STATEMENT_NONE,
@@ -15,13 +16,7 @@ typedef enum {
 	ECSACT_STATEMENT_ACTION,
 	ECSACT_STATEMENT_ENUM,
 	ECSACT_STATEMENT_ENUM_VALUE,
-	ECSACT_STATEMENT_I8_FIELD,
-	ECSACT_STATEMENT_U8_FIELD,
-	ECSACT_STATEMENT_I16_FIELD,
-	ECSACT_STATEMENT_U16_FIELD,
-	ECSACT_STATEMENT_I32_FIELD,
-	ECSACT_STATEMENT_U32_FIELD,
-	ECSACT_STATEMENT_F32_FIELD,
+	ECSACT_STATEMENT_BUILTIN_TYPE_FIELD,
 	ECSACT_STATEMENT_USER_TYPE_FIELD,
 	ECSACT_STATEMENT_ENTITY_FIELD,
 	ECSACT_STATEMENT_SYSTEM_COMPONENT,
@@ -68,6 +63,7 @@ typedef struct {
 } ecsact_enum_value_statement;
 
 typedef struct {
+	ecsact_builtin_type field_type;
 	ecsact_statement_sv field_name;
 	int length;
 } ecsact_field_statement;

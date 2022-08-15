@@ -62,7 +62,8 @@ TEST(Parse, SequentialStatements) {
 	// Reading nested `i32 test_field;`
 	read_next();
 	ASSERT_EQ(status.code, ECSACT_PARSE_STATUS_OK);
-	ASSERT_EQ(statement.type, ECSACT_STATEMENT_I32_FIELD);
+	ASSERT_EQ(statement.type, ECSACT_STATEMENT_BUILTIN_TYPE_FIELD);
+	ASSERT_EQ(statement.data.field_statement.field_type, ECSACT_I32);
 
 	// Reading `system TestNestedSystem {`
 	read_next();

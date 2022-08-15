@@ -7,9 +7,9 @@
 using namespace std::string_literals;
 
 void TestValidField
-	( std::string_view       statement_str
-	, ecsact_statement_type  expected_field_type
-	, std::string_view       expected_field_name
+	( std::string_view     statement_str
+	, ecsact_builtin_type  expected_field_type
+	, std::string_view     expected_field_name
 	)
 {
 	auto component_name = "ExampleComponent"s;
@@ -34,9 +34,13 @@ void TestValidField
 		&status
 	);
 
-	ASSERT_EQ(statement.type, expected_field_type);
+	ASSERT_EQ(statement.type, ECSACT_STATEMENT_BUILTIN_TYPE_FIELD);
 	EXPECT_EQ(status.code, ECSACT_PARSE_STATUS_OK);
 
+	EXPECT_EQ(
+		expected_field_type,
+		statement.data.field_statement.field_type
+	);
 	EXPECT_EQ(expected_field_name, std::string_view(
 		statement.data.field_statement.field_name.data,
 		statement.data.field_statement.field_name.length
@@ -48,7 +52,7 @@ void TestValidField
 TEST(Parse, I8Field) {
 	TestValidField(
 		"i8 example_field;"s,
-		ECSACT_STATEMENT_I8_FIELD,
+		ECSACT_I8,
 		"example_field"
 	);
 }
@@ -56,7 +60,7 @@ TEST(Parse, I8Field) {
 TEST(Parse, U8Field) {
 	TestValidField(
 		"u8 example_field;"s,
-		ECSACT_STATEMENT_U8_FIELD,
+		ECSACT_U8,
 		"example_field"
 	);
 }
@@ -64,7 +68,7 @@ TEST(Parse, U8Field) {
 TEST(Parse, I16Field) {
 	TestValidField(
 		"i16 example_field;"s,
-		ECSACT_STATEMENT_I16_FIELD,
+		ECSACT_I16,
 		"example_field"
 	);
 }
@@ -72,7 +76,7 @@ TEST(Parse, I16Field) {
 TEST(Parse, U16Field) {
 	TestValidField(
 		"u16 example_field;"s,
-		ECSACT_STATEMENT_U16_FIELD,
+		ECSACT_U16,
 		"example_field"
 	);
 }
@@ -80,7 +84,7 @@ TEST(Parse, U16Field) {
 TEST(Parse, I32Field) {
 	TestValidField(
 		"i32 example_field;"s,
-		ECSACT_STATEMENT_I32_FIELD,
+		ECSACT_I32,
 		"example_field"
 	);
 }
@@ -88,7 +92,7 @@ TEST(Parse, I32Field) {
 TEST(Parse, U32Field) {
 	TestValidField(
 		"u32 example_field;"s,
-		ECSACT_STATEMENT_U32_FIELD,
+		ECSACT_U32,
 		"example_field"
 	);
 }
@@ -96,7 +100,7 @@ TEST(Parse, U32Field) {
 TEST(Parse, F32Field) {
 	TestValidField(
 		"f32 example_field;"s,
-		ECSACT_STATEMENT_F32_FIELD,
+		ECSACT_F32,
 		"example_field"
 	);
 }
@@ -104,7 +108,7 @@ TEST(Parse, F32Field) {
 TEST(Parse, EntityField) {
 	TestValidField(
 		"entity example_field;"s,
-		ECSACT_STATEMENT_ENTITY_FIELD,
+		ECSACT_ENTITY_TYPE,
 		"example_field"
 	);
 }

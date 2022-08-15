@@ -330,36 +330,35 @@ namespace ecsact::parse::detail::grammar {
 
 		struct i8_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("i8");
-			static constexpr auto value = lexy::constant(ECSACT_STATEMENT_I8_FIELD);
+			static constexpr auto value = lexy::constant(ECSACT_I8);
 		};
 		struct u8_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("u8");
-			static constexpr auto value = lexy::constant(ECSACT_STATEMENT_U8_FIELD);
+			static constexpr auto value = lexy::constant(ECSACT_U8);
 		};
 		struct i16_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("i16");
-			static constexpr auto value = lexy::constant(ECSACT_STATEMENT_I16_FIELD);
+			static constexpr auto value = lexy::constant(ECSACT_I16);
 		};
 		struct u16_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("u16");
-			static constexpr auto value = lexy::constant(ECSACT_STATEMENT_U16_FIELD);
+			static constexpr auto value = lexy::constant(ECSACT_U16);
 		};
 		struct i32_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("i32");
-			static constexpr auto value = lexy::constant(ECSACT_STATEMENT_I32_FIELD);
+			static constexpr auto value = lexy::constant(ECSACT_I32);
 		};
 		struct u32_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("u32");
-			static constexpr auto value = lexy::constant(ECSACT_STATEMENT_U32_FIELD);
+			static constexpr auto value = lexy::constant(ECSACT_U32);
 		};
 		struct f32_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("f32");
-			static constexpr auto value = lexy::constant(ECSACT_STATEMENT_F32_FIELD);
+			static constexpr auto value = lexy::constant(ECSACT_F32);
 		};
 		struct entity_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("entity");
-			static constexpr auto value =
-				lexy::constant(ECSACT_STATEMENT_ENTITY_FIELD);
+			static constexpr auto value = lexy::constant(ECSACT_ENTITY_TYPE);
 		};
 
 		static constexpr auto type_keyword = (
@@ -380,14 +379,15 @@ namespace ecsact::parse::detail::grammar {
 
 		static constexpr auto value = lexy::callback<ecsact_statement>(
 			[]
-				( ecsact_statement_type   field_type
+				( ecsact_builtin_type   field_type
 				, std::optional<int32_t>  length
 				, std::string_view        field_name
 				)
 			{
 				return ecsact_statement{
-					.type = field_type,
+					.type = ECSACT_STATEMENT_BUILTIN_TYPE_FIELD,
 					.data{.field_statement{
+						.field_type = field_type,
 						.field_name{
 							.data = field_name.data(),
 							.length = static_cast<int>(field_name.size()),

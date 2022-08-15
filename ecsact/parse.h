@@ -76,65 +76,6 @@ void ecsact_parse_with_cpp_callback
 		callback_ptr
 	);
 }
-
-template<typename Callback>
-void ecsact_parse_statement_cpp_visit
-	( const ecsact_statement&  statement
-	, Callback&&               callback
-	)
-{
-	switch(statement.type) {
-		case ECSACT_STATEMENT_NONE:
-			callback(statement.type, ecsact_none_statement{});
-			break;
-		case ECSACT_STATEMENT_UNKNOWN:
-			callback(statement.type, ecsact_unknown_statement{});
-			break;
-		case ECSACT_STATEMENT_PACKAGE:
-			callback(statement.type, statement.data.package_statement);
-			break;
-		case ECSACT_STATEMENT_IMPORT:
-			callback(statement.type, statement.data.import_statement);
-			break;
-		case ECSACT_STATEMENT_COMPONENT:
-			callback(statement.type, statement.data.component_statement);
-			break;
-		case ECSACT_STATEMENT_SYSTEM:
-			callback(statement.type, statement.data.system_statement);
-			break;
-		case ECSACT_STATEMENT_ACTION:
-			callback(statement.type, statement.data.action_statement);
-			break;
-		case ECSACT_STATEMENT_ENUM:
-			callback(statement.type, statement.data.enum_statement);
-			break;
-		case ECSACT_STATEMENT_I8_FIELD:
-		case ECSACT_STATEMENT_U8_FIELD:
-		case ECSACT_STATEMENT_I16_FIELD:
-		case ECSACT_STATEMENT_U16_FIELD:
-		case ECSACT_STATEMENT_I32_FIELD:
-		case ECSACT_STATEMENT_U32_FIELD:
-		case ECSACT_STATEMENT_F32_FIELD:
-		case ECSACT_STATEMENT_ENTITY_FIELD:
-			callback(statement.type, statement.data.field_statement);
-			break;
-		case ECSACT_STATEMENT_USER_TYPE_FIELD:
-			callback(statement.type, statement.data.user_type_field_statement);
-			break;
-		case ECSACT_STATEMENT_SYSTEM_COMPONENT:
-			callback(statement.type, statement.data.system_component_statement);
-			break;
-		// case ECSACT_STATEMENT_SYSTEM_GENERATES:
-		// 	callback(statement.type, statement.data.system_generates_statement);
-		// 	break;
-		case ECSACT_STATEMENT_SYSTEM_WITH_ENTITY:
-			callback(statement.type, statement.data.system_with_entity_statement);
-			break;
-		case ECSACT_STATEMENT_ENTITY_CONSTRAINT:
-			callback(statement.type, statement.data.entity_constraint_statement);
-			break;
-	}
-}
 #endif
 
 #endif // ECSACT_PARSER_H
