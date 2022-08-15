@@ -30,10 +30,10 @@ def ecsact_parse_dependencies():
     )
 
     http_archive(
-        name = "ecsact_runtime",
-        sha256 = "c34b92dd2cde6b410cb6461d48f9c79768ae1d6f38fdb96ca0945c3310124f2e",
-        strip_prefix = "ecsact_runtime-76fc03ba9595b93fc3295709f60af6a58df9b684",
-        url = "https://github.com/ecsact-dev/ecsact_runtime/archive/76fc03ba9595b93fc3295709f60af6a58df9b684.zip",
+        name = "bazel_sundry",
+        sha256 = "4ee3c8e29eb3d4f34b1ca7d2374437b5c6f0fd62316f90e38e9f32119421466d",
+        strip_prefix = "bazel_sundry-de785e9f424948949cafed3ee8bee9689dc84a80",
+        url = "https://github.com/seaube/bazel_sundry/archive/de785e9f424948949cafed3ee8bee9689dc84a80.zip",
     )
 
     http_archive(
