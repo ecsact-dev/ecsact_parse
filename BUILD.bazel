@@ -24,6 +24,7 @@ cc_library(
     copts = copts,
     deps = [
         "@ecsact_runtime//:common",
+        "@ecsact_runtime//:definitions",
         "@lexy",
         "@magic_enum",
     ],

@@ -49,6 +49,25 @@ TEST(Parse, ExampleFiles) {
 					);
 					std::cerr << "\n\tRelevant source: " << err_loc << "\n";
 				}
+			} else {
+				EXPECT_TRUE(params.statement);
+				if(params.statement) {
+					switch(params.statement->type) {
+						// We should expect certain statements to always have a context
+						case ECSACT_STATEMENT_BUILTIN_TYPE_FIELD:
+						case ECSACT_STATEMENT_USER_TYPE_FIELD:
+						case ECSACT_STATEMENT_ENUM_VALUE:
+						case ECSACT_STATEMENT_SYSTEM_GENERATES:
+							EXPECT_TRUE(params.context_statement)
+								<< "Expected "
+								<< magic_enum::enum_name(params.statement->type)
+								<< " (" << params.statement->type << ")"
+								<< " to have context statement";
+							break;
+						default:
+							break;
+					}
+				}
 			}
 
 			return ECSACT_PARSE_CALLBACK_CONTINUE;

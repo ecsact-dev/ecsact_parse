@@ -19,6 +19,8 @@ struct statement_and_source {
 struct file_and_state {
 	std::ifstream stream;
 	statement_and_source package;
+	// context statement used in last `read_next_statement` call
+	const ecsact_statement* context_statement = nullptr;
 	fixed_stack<statement_and_source, 16> statement_stack;
 	std::vector<std::string> next_statement_sources;
 
@@ -46,11 +48,12 @@ struct file_and_state {
 		auto read_data = next.source.data();
 		auto read_size = next.source.size();
 
+		context_statement = previous ? &previous->get().statement : nullptr;
 		[[maybe_unused]]
 		auto read_amount = ecsact_parse_statement(
 			read_data,
 			read_size,
-			previous ? &previous->get().statement : nullptr,
+			context_statement,
 			&next.statement,
 			&status
 		);
@@ -73,11 +76,13 @@ struct file_and_state {
 		if(status_code == ECSACT_PARSE_STATUS_OK) {
 			// We've reached the end of the current statement. Pop it off the stack.
 			statement_stack.pop();
+			context_statement = nullptr;
 		} else if(status_code == ECSACT_PARSE_STATUS_BLOCK_END) {
 			// We've reached the end of the current statement and the current block.
 			// Pop the current and pop the block.
 			statement_stack.pop();
 			statement_stack.pop();
+			context_statement = nullptr;
 		}
 	}
 
@@ -85,6 +90,7 @@ struct file_and_state {
 		auto& last = statement_stack.top();
 		next_statement_sources.push_back(last.source);
 		statement_stack.pop();
+		context_statement = nullptr;
 	}
 };
 
@@ -343,7 +349,7 @@ struct ecsact_parse_object {
 
 					auto& statement = file.statement_stack.top().statement;
 
-					callback_params.context_statement = nullptr;
+					callback_params.context_statement = file.context_statement;
 					callback_params.statement = &statement;
 					callback_params.error = nullptr;
 					if(!callback_recover()) {
