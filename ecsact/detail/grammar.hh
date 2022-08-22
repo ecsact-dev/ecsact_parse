@@ -602,6 +602,32 @@ namespace ecsact::parse::detail::grammar {
 		);
 	};
 
+	struct with_statement {
+		static constexpr auto name() { return "with statement"; }
+
+		struct with_keyword : lexy::transparent_production {
+			static constexpr auto rule = LEXY_LIT("with");
+			static constexpr auto value = lexy::noop;
+		};
+
+		static constexpr auto rule =
+			lexy::dsl::p<with_keyword> >> lexy::dsl::p<field_name>;
+
+		static constexpr auto value = lexy::callback<ecsact_statement>(
+			[](std::string_view field_name) {
+				return ecsact_statement{
+					.type = ECSACT_STATEMENT_SYSTEM_WITH_ENTITY,
+					.data{.system_with_entity_statement{
+						.with_entity_field_name{
+							.data = field_name.data(),
+							.length = static_cast<int>(field_name.size()),
+						},
+					}},
+				};
+			}
+		);
+	};
+
 	struct none_statement {
 		static constexpr auto rule = LEXY_LIT("");
 		static constexpr auto value = lexy::constant(ecsact_statement{
@@ -720,5 +746,14 @@ namespace ecsact::parse::detail::grammar {
 		< entity_field_level_statement_name
 		, entity_field_level_statement_expected_message
 		, entity_constraint_statement
+		>;
+
+	constexpr char system_component_level_statement_name[] = "system component level statement";
+	constexpr char system_component_level_statement_expected_message[] = "expected system component level statement";
+	using system_component_level_statement = statement
+		< system_component_level_statement_name
+		, system_component_level_statement_expected_message
+		, system_component_statement
+		, with_statement
 		>;
 }
