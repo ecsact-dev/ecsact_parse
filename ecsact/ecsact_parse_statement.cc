@@ -30,6 +30,8 @@ static auto context_grammar
 			return fn(grammar::system_generates_level_statement{});
 		case ECSACT_STATEMENT_ENTITY_FIELD:
 			return fn(grammar::entity_field_level_statement{});
+		case ECSACT_STATEMENT_SYSTEM_COMPONENT:
+			return fn(grammar::system_component_level_statement{});
 	}
 
 	assert(false && "unhandled context grammar");
