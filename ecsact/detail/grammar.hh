@@ -181,7 +181,7 @@ namespace ecsact::parse::detail::grammar {
 		);
 	};
 
-struct transient_statement {
+	struct transient_statement {1
 		static constexpr auto name() { return "transient statement"; }
 
 		struct transient_keyword : lexy::transparent_production {
