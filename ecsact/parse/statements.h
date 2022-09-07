@@ -12,6 +12,7 @@ typedef enum {
 	ECSACT_STATEMENT_PACKAGE,
 	ECSACT_STATEMENT_IMPORT,
 	ECSACT_STATEMENT_COMPONENT,
+	ECSACT_STATEMENT_TRANSIENT,
 	ECSACT_STATEMENT_SYSTEM,
 	ECSACT_STATEMENT_ACTION,
 	ECSACT_STATEMENT_ENUM,
@@ -42,8 +43,11 @@ typedef struct {
 
 typedef struct {
 	ecsact_statement_sv component_name;
-	bool transient;
 } ecsact_component_statement;
+
+typedef struct {
+	ecsact_statement_sv transient_name;
+} ecsact_transient_statement;
 
 typedef struct {
 	ecsact_statement_sv system_name;
@@ -93,6 +97,7 @@ typedef union {
 	ecsact_package_statement package_statement;
 	ecsact_import_statement import_statement;
 	ecsact_component_statement component_statement;
+	ecsact_transient_statement transient_statement;
 	ecsact_system_statement system_statement;
 	ecsact_action_statement action_statement;
 	ecsact_enum_statement enum_statement;
