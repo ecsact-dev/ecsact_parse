@@ -22,6 +22,8 @@ static auto context_grammar
 			return fn(grammar::enum_level_statements{});
 		case ECSACT_STATEMENT_COMPONENT:
 			return fn(grammar::component_level_statement{});
+		case ECSACT_STATEMENT_TRANSIENT:
+			return fn(grammar::transient_level_statement{});
 		case ECSACT_STATEMENT_SYSTEM:
 			return fn(grammar::system_level_statement{});
 		case ECSACT_STATEMENT_ACTION:

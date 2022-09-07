@@ -159,20 +159,15 @@ namespace ecsact::parse::detail::grammar {
 
 		struct component_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("component");
-			static constexpr auto value = lexy::constant(false);
-		};
-
-		struct transient_keyword : lexy::transparent_production {
-			static constexpr auto rule = LEXY_LIT("transient");
-			static constexpr auto value = lexy::constant(true);
+			static constexpr auto value = lexy::noop;
 		};
 
 		static constexpr auto rule =
-			(lexy::dsl::p<component_keyword> | lexy::dsl::p<transient_keyword>) >>
+			lexy::dsl::p<component_keyword> >>
 			lexy::dsl::p<type_name>;
 
 		static constexpr auto value = lexy::callback<ecsact_statement>(
-			[](bool transient, std::string_view component_name) {
+			[](std::string_view component_name) {
 				return ecsact_statement{
 					.type = ECSACT_STATEMENT_COMPONENT,
 					.data{.component_statement{
@@ -180,7 +175,33 @@ namespace ecsact::parse::detail::grammar {
 							.data = component_name.data(),
 							.length = static_cast<int>(component_name.size()),
 						},
-						.transient = transient,
+					}},
+				};
+			}
+		);
+	};
+
+	struct transient_statement {
+		static constexpr auto name() { return "transient statement"; }
+
+		struct transient_keyword : lexy::transparent_production {
+			static constexpr auto rule = LEXY_LIT("transient");
+			static constexpr auto value = lexy::noop;
+		};
+
+		static constexpr auto rule =
+			lexy::dsl::p<transient_keyword> >>
+			lexy::dsl::p<type_name>;
+
+		static constexpr auto value = lexy::callback<ecsact_statement>(
+			[](std::string_view transient_name) {
+				return ecsact_statement{
+					.type = ECSACT_STATEMENT_TRANSIENT,
+					.data{.transient_statement{
+						.transient_name{
+							.data = transient_name.data(),
+							.length = static_cast<int>(transient_name.size()),
+						},
 					}},
 				};
 			}
@@ -688,6 +709,7 @@ namespace ecsact::parse::detail::grammar {
 		, package_statement
 		, import_statement
 		, component_statement
+		, transient_statement
 		, system_statement
 		, action_statement
 		, enum_statement
@@ -706,6 +728,15 @@ namespace ecsact::parse::detail::grammar {
 	using component_level_statement = statement
 		< component_level_statement_name
 		, component_level_statement_expected_message
+		, field_statement
+		, user_type_field_statement
+		>;
+
+	constexpr char transient_level_statement_name[] = "transient level statement";
+	constexpr char transient_level_statement_expected_message[] = "expected transient level statement";
+	using transient_level_statement = statement
+		< transient_level_statement_name
+		, transient_level_statement_expected_message
 		, field_statement
 		, user_type_field_statement
 		>;
