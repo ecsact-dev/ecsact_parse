@@ -787,4 +787,13 @@ namespace ecsact::parse::detail::grammar {
 		, system_component_statement
 		, with_statement
 		>;
+
+	constexpr char system_with_entity_level_statement_name[] = "system with entity level statement";
+	constexpr char system_with_entity_level_statement_expected_message[] = "expected system with entity level statement";
+	using system_with_entity_level_statement = statement
+		< system_with_entity_level_statement_name
+		, system_with_entity_level_statement_expected_message
+		, system_component_statement
+		, with_statement
+		>;
 }

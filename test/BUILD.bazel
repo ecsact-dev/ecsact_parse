@@ -14,6 +14,7 @@ _TESTS = [
     "system_component_statement",
     "system_generates_statement",
     "system_statement",
+    "system_with_entity_statement",
 ]
 
 [cc_test(
