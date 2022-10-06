@@ -5,6 +5,12 @@
 #include "ecsact/parse/status.h"
 #include "ecsact/parse/error.h"
 
+#ifdef __cplusplus
+#	define ECSACT_PARSE_API extern "C"
+#else
+#	define ECSACT_PARSE_API extern
+#endif
+
 typedef enum {
 	ECSACT_PARSE_CALLBACK_STOP,
 	ECSACT_PARSE_CALLBACK_CONTINUE,
@@ -34,7 +40,7 @@ typedef ecsact_parse_callback_result(*ecsact_parse_callback)
  *        parsing `statement_string`. May be `NULL`.
  * @returns read length
  */
-int ecsact_parse_statement
+ECSACT_PARSE_API int ecsact_parse_statement
 	( const char*              statement_string
 	, int                      max_read_length
 	, const ecsact_statement*  context_statement
@@ -42,7 +48,7 @@ int ecsact_parse_statement
 	, ecsact_parse_status*     out_status
 	);
 
-void ecsact_parse
+ECSACT_PARSE_API void ecsact_parse
 	( const char**           file_paths
 	, int                    file_paths_count
 	, ecsact_parse_callback  callback
