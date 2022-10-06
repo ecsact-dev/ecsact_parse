@@ -1,4 +1,5 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@emsdk//emscripten_toolchain:wasm_rules.bzl", "wasm_cc_binary")
 load("//bazel:copts.bzl", "copts")
 
 package(default_visibility = ["//visibility:public"])
@@ -27,5 +28,13 @@ cc_library(
         "@ecsact_runtime//:definitions",
         "@lexy",
         "@magic_enum",
+    ],
+)
+
+wasm_cc_binary(
+    name = "ecsact_parse_wasm",
+    cc_target = ":ecsact_parse",
+    outputs = [
+        "ecsact_parse.wasm",
     ],
 )

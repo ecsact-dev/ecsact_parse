@@ -13,6 +13,21 @@ http_archive(
 )
 
 http_archive(
+    name = "emsdk",
+    sha256 = "a2609fd97580e4e332acbf49b6cc363714982f06cb6970d54c9789df8e91381c",
+    strip_prefix = "emsdk-3.1.23/bazel",
+    url = "https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.23.tar.gz",
+)
+
+load("@emsdk//:deps.bzl", emsdk_deps = "deps")
+
+emsdk_deps()
+
+load("@emsdk//:emscripten_deps.bzl", emsdk_emscripten_deps = "emscripten_deps")
+
+emsdk_emscripten_deps(emscripten_version = "3.1.23")
+
+http_archive(
     name = "hedron_compile_commands",
     sha256 = "4deb7cd90ba69983ec7734c0dcc7071828ebdc430a69f82ddbccf698018b9c04",
     strip_prefix = "bazel-compile-commands-extractor-5ceebcf367f51c6a18fffe726755951a43b50e45",
