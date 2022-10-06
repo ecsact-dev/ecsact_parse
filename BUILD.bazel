@@ -44,6 +44,13 @@ cc_binary(
     name = "ecsact_parse_shared",
     srcs = _srcs + _hdrs,
     copts = copts,
+    features = [
+        "wasm_standalone",
+        "wasm_no_entry",
+        "-wasm_warnings_as_errors",
+        "-wasm_error_on_undefined_symbols",
+        "-exceptions",
+    ],
     linkshared = True,
     deps = _deps,
 )
@@ -51,7 +58,10 @@ cc_binary(
 wasm_cc_binary(
     name = "ecsact_parse_wasm",
     cc_target = ":ecsact_parse_shared",
+    exported_functions = [
+        "_ecsact_parse_statement",
+    ],
     outputs = [
-        "ecsact_parse.wasm",
+        "ecsact_parse_shared.wasm",
     ],
 )
