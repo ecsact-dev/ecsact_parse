@@ -1,39 +1,56 @@
-load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary", "cc_library")
 load("@emsdk//emscripten_toolchain:wasm_rules.bzl", "wasm_cc_binary")
 load("//bazel:copts.bzl", "copts")
 
 package(default_visibility = ["//visibility:public"])
 
+# keep sorted
+_srcs = [
+    "ecsact/detail/check_set.hh",
+    "ecsact/detail/fixed_stack.hh",
+    "ecsact/detail/grammar.hh",
+    "ecsact/detail/read_util.hh",
+    "ecsact/detail/stack_util.hh",
+    "ecsact/ecsact_parse.cc",
+    "ecsact/ecsact_parse_statement.cc",
+]
+
+# keep sorted
+_hdrs = [
+    "ecsact/parse.h",
+    "ecsact/parse/error.h",
+    "ecsact/parse/statements.h",
+    "ecsact/parse/status.h",
+    "ecsact/parse/string.h",
+]
+
+# keep sorted
+_deps = [
+    "@ecsact_runtime//:common",
+    "@ecsact_runtime//:definitions",
+    "@lexy",
+    "@magic_enum",
+]
+
 cc_library(
     name = "ecsact_parse",
-    srcs = [
-        "ecsact/detail/check_set.hh",
-        "ecsact/detail/fixed_stack.hh",
-        "ecsact/detail/grammar.hh",
-        "ecsact/detail/read_util.hh",
-        "ecsact/detail/stack_util.hh",
-        "ecsact/ecsact_parse.cc",
-        "ecsact/ecsact_parse_statement.cc",
-    ],
-    hdrs = [
-        "ecsact/parse.h",
-        "ecsact/parse/error.h",
-        "ecsact/parse/statements.h",
-        "ecsact/parse/status.h",
-        "ecsact/parse/string.h",
-    ],
+    srcs = _srcs,
+    hdrs = _hdrs,
     copts = copts,
-    deps = [
-        "@ecsact_runtime//:common",
-        "@ecsact_runtime//:definitions",
-        "@lexy",
-        "@magic_enum",
-    ],
+    deps = _deps,
+)
+
+cc_binary(
+    name = "ecsact_parse_shared",
+    srcs = _srcs + _hdrs,
+    copts = copts,
+    linkshared = True,
+    deps = _deps,
 )
 
 wasm_cc_binary(
     name = "ecsact_parse_wasm",
-    cc_target = ":ecsact_parse",
+    cc_target = ":ecsact_parse_shared",
     outputs = [
         "ecsact_parse.wasm",
     ],
