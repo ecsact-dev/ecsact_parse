@@ -7,7 +7,7 @@
 using namespace std::string_literals;
 
 TEST(Parse, NoneStatement) {
-	auto statement_str = "  "s;
+	auto statement_str = "asd asd;"s;
 	ecsact_statement statement;
 	ecsact_parse_status status;
 
@@ -19,7 +19,7 @@ TEST(Parse, NoneStatement) {
 		&status
 	);
 
-	ASSERT_EQ(status.code, ECSACT_PARSE_STATUS_EXPECTED_STATEMENT_END);
-	ASSERT_EQ(statement.type, ECSACT_STATEMENT_NONE);
+	ASSERT_EQ(status.code, ECSACT_PARSE_STATUS_OK);
+	ASSERT_EQ(statement.type, ECSACT_STATEMENT_UNKNOWN);
 	EXPECT_EQ(read_amount, statement_str.size());
 }

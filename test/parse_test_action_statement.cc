@@ -7,7 +7,7 @@
 using namespace std::string_literals;
 
 TEST(Parse, Action) {
-	auto statement_str = "action MyAction"s;
+	auto statement_str = "action MyAction;"s;
 	ecsact_statement statement;
 	ecsact_parse_status status;
 

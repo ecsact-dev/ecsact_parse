@@ -3,29 +3,33 @@ load("//bazel:copts.bzl", "copts")
 
 package(default_visibility = ["//visibility:public"])
 
+# keep sorted
+_srcs = [
+    "ecsact/detail/grammar.hh",
+    "ecsact/ecsact_parse_statement.cc",
+]
+
+# keep sorted
+_hdrs = [
+    "ecsact/parse.h",
+    "ecsact/parse/error.h",
+    "ecsact/parse/statements.h",
+    "ecsact/parse/status.h",
+    "ecsact/parse/string.h",
+]
+
+# keep sorted
+_deps = [
+    "@ecsact_runtime//:common",
+    "@ecsact_runtime//:definitions",
+    "@lexy",
+    "@magic_enum",
+]
+
 cc_library(
     name = "ecsact_parse",
-    srcs = [
-        "ecsact/detail/check_set.hh",
-        "ecsact/detail/fixed_stack.hh",
-        "ecsact/detail/grammar.hh",
-        "ecsact/detail/read_util.hh",
-        "ecsact/detail/stack_util.hh",
-        "ecsact/ecsact_parse.cc",
-        "ecsact/ecsact_parse_statement.cc",
-    ],
-    hdrs = [
-        "ecsact/parse.h",
-        "ecsact/parse/error.h",
-        "ecsact/parse/statements.h",
-        "ecsact/parse/status.h",
-        "ecsact/parse/string.h",
-    ],
+    srcs = _srcs,
+    hdrs = _hdrs,
     copts = copts,
-    deps = [
-        "@ecsact_runtime//:common",
-        "@ecsact_runtime//:definitions",
-        "@lexy",
-        "@magic_enum",
-    ],
+    deps = _deps,
 )

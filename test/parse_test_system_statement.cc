@@ -7,7 +7,7 @@
 using namespace std::string_literals;
 
 TEST(Parse, System) {
-	auto statement_str = "system MySystem"s;
+	auto statement_str = "system MySystem;"s;
 	ecsact_statement statement;
 	ecsact_parse_status status;
 

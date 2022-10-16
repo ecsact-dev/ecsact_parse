@@ -109,7 +109,7 @@ typedef union {
 	ecsact_entity_constraint_statement entity_constraint_statement;
 } ecsact_statement_data;
 
-typedef struct {
+typedef struct ecsact_statement {
 	/**
 	 * Unique identifier for this statement.
 	 */

@@ -27,7 +27,8 @@ namespace ecsact::parse::detail::grammar {
 
 	struct eof {
 		static constexpr auto rule = lexy::dsl::eof;
-		static constexpr auto value = lexy::constant(ECSACT_PARSE_STATUS_OK);
+		static constexpr auto value =
+			lexy::constant(ECSACT_PARSE_STATUS_EXPECTED_STATEMENT_END);
 	};
 
 	struct parse_end {
@@ -94,8 +95,27 @@ namespace ecsact::parse::detail::grammar {
 		static constexpr auto value = lexy::as_string<std::string_view>;
 	};
 
+	struct unknown_statement {
+		static constexpr auto name() { return "unknown statement"; }
+
+		static constexpr auto rule = lexy::dsl::while_one(lexy::dsl::ascii::alnum - (
+			lexy::dsl::inline_<statement_end> /
+			lexy::dsl::inline_<statement_block_begin> /
+			lexy::dsl::inline_<statement_block_end>
+		));
+
+		static constexpr auto value = lexy::callback<ecsact_statement>(
+			[]() {
+				return ecsact_statement{
+					.type = ECSACT_STATEMENT_UNKNOWN,
+					.data{},
+				};
+			}
+		);
+	};
+
 	struct package_statement {
-		static constexpr auto name() { return "import statement"; }
+		static constexpr auto name() { return "package statement"; }
 
 		struct main_package_keyword : lexy::transparent_production {
 			static constexpr auto rule = LEXY_LIT("main") >> LEXY_LIT("package");
@@ -689,6 +709,7 @@ namespace ecsact::parse::detail::grammar {
 		static constexpr auto rule = [] {
 			auto statement_p =
 				(lexyd::p<Grammar> | ... ) |
+				lexyd::p<unknown_statement> |
 				lexyd::p<none_statement> |
 				lexyd::error<expected_statement>;
 
@@ -713,6 +734,14 @@ namespace ecsact::parse::detail::grammar {
 		, system_statement
 		, action_statement
 		, enum_statement
+		>;
+
+	constexpr char unknown_statement_name[] = "unknown statement";
+	constexpr char unknown_statement_expected_message[] = "unknown statement";
+	using unknown_level_statement = statement
+		< unknown_statement_name
+		, unknown_statement_expected_message
+		, unknown_statement
 		>;
 
 	constexpr char enum_level_statements_name[] = "enum value statements";

@@ -5,7 +5,10 @@
 
 typedef enum {
 	ECSACT_PARSE_ERR_STATUS,
+	/// Expected a package statement as the first statement.
 	ECSACT_PARSE_ERR_EXPECTED_PACKAGE_STATEMENT,
+	/// The given statement was not expected in the given context.
+	ECSACT_PARSE_ERR_UNEXPECTED_STATEMENT,
 } ecsact_parse_error_code;
 
 typedef struct {

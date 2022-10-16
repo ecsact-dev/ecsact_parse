@@ -14,7 +14,7 @@ TEST(Parse, WithEntityStatement) {
 		.with_entity_field_name = {},
 	};
 
-	auto statement_str = "with test_entity"s;
+	auto statement_str = "with test_entity;"s;
 	ecsact_statement statement;
 	ecsact_parse_status status;
 

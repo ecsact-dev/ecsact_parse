@@ -1,6 +1,4 @@
-#include "parse.h"
-
-#include <fstream>
+#include "ecsact/parse.h"
 
 #include "./detail/check_set.hh"
 #include "./detail/fixed_stack.hh"
@@ -17,7 +15,6 @@ struct statement_and_source {
 };
 
 struct file_and_state {
-	std::ifstream stream;
 	statement_and_source package;
 	// context statement used in last `read_next_statement` call
 	const ecsact_statement* context_statement = nullptr;
@@ -95,8 +92,7 @@ struct file_and_state {
 };
 
 struct ecsact_parse_object {
-	const char** file_paths;
-	int file_paths_count;
+	ecsact_source_provider& source_provider;
 	std::vector<file_and_state> files;
 	ecsact_parse_status status;
 	ecsact_parse_callback callback;
@@ -106,18 +102,16 @@ struct ecsact_parse_object {
 	int32_t next_id = 0;
 
 	ecsact_parse_object
-		( const char**           file_paths
-		, int                    file_paths_count
-		, ecsact_parse_callback  callback
-		, void*                  callback_user_data
+		( ecsact_source_provider&  source_provider
+		, ecsact_parse_callback    callback
+		, void*                    callback_user_data
 		)
-		: file_paths(file_paths)
-		, file_paths_count(file_paths_count)
+		: source_provider(source_provider)
 		, callback(callback)
 		, callback_user_data(callback_user_data)
 	{
 		std::vector<file_and_state> files;
-		files.reserve(file_paths_count);
+		files.reserve(source_provider.sources_count);
 	}
 
 	bool callback_recover() {
@@ -147,7 +141,7 @@ struct ecsact_parse_object {
 	}
 
 	bool parse_packages_top() {
-		for(int i=0; file_paths_count > i; ++i) {
+		for(int i=0; source_provider.sources_count > i; ++i) {
 			auto& file = files.emplace_back();
 			callback_params.source_file_index = i;
 
@@ -368,15 +362,13 @@ struct ecsact_parse_object {
 };
 
 void ecsact_parse
-	( const char**           file_paths
-	, int                    file_paths_count
-	, ecsact_parse_callback  callback
-	, void*                  callback_user_data
+	( ecsact_source_provider  source_provider
+	, ecsact_parse_callback   callback
+	, void*                   callback_user_data
 	)
 {
 	ecsact_parse_object parse_obj(
-		file_paths,
-		file_paths_count,
+		source_provider,
 		callback,
 		callback_user_data
 	);
@@ -387,7 +379,7 @@ void ecsact_parse
 	if(!parse_obj.parse_imports())          return;
 	if(!parse_obj.check_unknown_imports())  return;
 	if(!parse_obj.check_cyclic_imports())   return;
-	// 3. se the rest for all declarations
+	// 3. Parse the rest for all declarations
 	if(!parse_obj.parse_declarations())     return;
 
 	// Done!

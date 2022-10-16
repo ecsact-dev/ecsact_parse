@@ -15,6 +15,7 @@ _TESTS = [
     "system_generates_statement",
     "system_statement",
     "system_with_entity_statement",
+    "unknown_statement",
 ]
 
 [cc_test(
@@ -27,21 +28,3 @@ _TESTS = [
         "@com_google_googletest//:gtest_main",
     ],
 ) for test in _TESTS]
-
-cc_test(
-    name = "test",
-    srcs = ["parse_test_example_files.cc"],
-    copts = copts,
-    data = [
-        "//example:example.ecsact",
-        "//example:extras.ecsact",
-    ],
-    deps = [
-        "//:ecsact_parse",
-        "@bazel_sundry//bazel_sundry:runfiles",
-        "@bazel_tools//tools/cpp/runfiles",
-        "@com_google_googletest//:gtest",
-        "@com_google_googletest//:gtest_main",
-        "@magic_enum",
-    ],
-)

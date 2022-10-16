@@ -1,6 +1,5 @@
 #include "parse.h"
 
-#include <iostream>
 #include <lexy/input/string_input.hpp>
 #include <lexy/input_location.hpp>
 #include <lexy/action/scan.hpp>
@@ -18,6 +17,8 @@ static auto context_grammar
 	switch(context_type) {
 		case ECSACT_STATEMENT_NONE:
 			return fn(grammar::top_level_statement{});
+		case ECSACT_STATEMENT_UNKNOWN:
+			return fn(grammar::unknown_level_statement{});
 		case ECSACT_STATEMENT_ENUM:
 			return fn(grammar::enum_level_statements{});
 		case ECSACT_STATEMENT_COMPONENT:
@@ -50,6 +51,8 @@ int ecsact_parse_statement
 	, ecsact_parse_status*     out_status
 	)
 {
+	static decltype(out_statement->id) last_id{};
+
 	const auto context_type = context_statement == nullptr
 		? ECSACT_STATEMENT_NONE
 		: context_statement->type;
@@ -76,7 +79,7 @@ int ecsact_parse_statement
 		out_status->code = result.value().status;
 	}
 
-	out_statement->id = 0;
+	out_statement->id = ++last_id;
 
 	auto remaining_input = scanner.remaining_input();
 	return remaining_input.reader().position() - input.data();
