@@ -28,7 +28,7 @@ namespace ecsact::parse::detail::grammar {
 	struct eof {
 		static constexpr auto rule = lexy::dsl::eof;
 		static constexpr auto value =
-			lexy::constant(ECSACT_PARSE_STATUS_EXPECTED_STATEMENT_END);
+			lexy::constant(ECSACT_PARSE_STATUS_ASSUMED_STATEMENT_END);
 	};
 
 	struct parse_end {

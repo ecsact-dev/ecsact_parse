@@ -19,7 +19,8 @@ TEST(Parse, NoneStatement) {
 		&status
 	);
 
-	ASSERT_EQ(status.code, ECSACT_PARSE_STATUS_EXPECTED_STATEMENT_END);
-	ASSERT_EQ(statement.type, ECSACT_STATEMENT_NONE);
+	ASSERT_FALSE(ecsact_is_error_parse_status_code(status.code));
+	EXPECT_EQ(status.code, ECSACT_PARSE_STATUS_ASSUMED_STATEMENT_END);
+	EXPECT_EQ(statement.type, ECSACT_STATEMENT_NONE);
 	EXPECT_EQ(read_amount, statement_str.size());
 }

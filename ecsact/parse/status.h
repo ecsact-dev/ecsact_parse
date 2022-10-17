@@ -29,7 +29,7 @@ typedef enum {
 	 * Parse was successful, but expected the statement to end. Usually this means
 	 * there is a missing semi-colon or open curly bracket.
 	 */
-	ECSACT_PARSE_STATUS_EXPECTED_STATEMENT_END,
+	ECSACT_PARSE_STATUS_ASSUMED_STATEMENT_END,
 
 	/**
 	 * Failed to parse statement due to unexpected end of file or end of string
@@ -47,7 +47,7 @@ inline bool ecsact_is_error_parse_status_code
 	( ecsact_parse_status_code code
 	)
 {
-	return (int)code > (int)ECSACT_PARSE_STATUS_BLOCK_END;
+	return (int)code > (int)ECSACT_PARSE_STATUS_ASSUMED_STATEMENT_END;
 }
 
 struct ecsact_parse_status {
