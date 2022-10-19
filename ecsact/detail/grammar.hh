@@ -1,3 +1,5 @@
+//! @internal
+
 #pragma once
 
 #include <string_view>
@@ -8,7 +10,6 @@
 #include "ecsact/parse/statements.h"
 #include "magic_enum.hpp"
 
-/** @internal */
 namespace ecsact::parse::detail::grammar {
 	struct statement_end {
 		static constexpr auto rule = lexy::dsl::lit_c<';'>;
