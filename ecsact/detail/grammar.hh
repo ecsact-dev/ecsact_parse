@@ -1,5 +1,3 @@
-//! @internal
-
 #pragma once
 
 #include <string_view>
@@ -368,6 +366,7 @@ namespace ecsact::parse::detail::grammar {
 		static constexpr auto value = lexy::forward<int32_t>;
 	};
 
+	//! @internal
 	struct field_statement {
 		static constexpr auto name() { return "field statement"; }
 
