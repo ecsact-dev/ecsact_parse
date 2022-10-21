@@ -19,12 +19,12 @@ action TestAction {
 
 TEST(Parse, SequentialStatements) {
 	std::stack<ecsact_statement> context_stack;
-	ecsact_statement statement = {};
-	ecsact_parse_status status = {};
+	ecsact_statement             statement = {};
+	ecsact_parse_status          status = {};
 
 	auto data = statement_str.data();
 	auto size = statement_str.size();
-	int read_amount = 0;
+	int  read_amount = 0;
 
 	auto read_next = [&] {
 		ecsact_statement* context_statement = nullptr;

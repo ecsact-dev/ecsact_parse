@@ -14,8 +14,8 @@ TEST(Parse, WithEntityStatement) {
 		.with_entity_field_name = {},
 	};
 
-	auto statement_str = "with test_entity;"s;
-	ecsact_statement statement;
+	auto                statement_str = "with test_entity;"s;
+	ecsact_statement    statement;
 	ecsact_parse_status status;
 
 	auto read_amount = ecsact_parse_statement(
@@ -29,10 +29,13 @@ TEST(Parse, WithEntityStatement) {
 	ASSERT_EQ(statement.type, ECSACT_STATEMENT_SYSTEM_WITH_ENTITY);
 	EXPECT_EQ(status.code, ECSACT_PARSE_STATUS_OK);
 
-	EXPECT_EQ("test_entity", std::string_view(
-		statement.data.system_with_entity_statement.with_entity_field_name.data,
-		statement.data.system_with_entity_statement.with_entity_field_name.length
-	));
+	EXPECT_EQ(
+		"test_entity",
+		std::string_view(
+			statement.data.system_with_entity_statement.with_entity_field_name.data,
+			statement.data.system_with_entity_statement.with_entity_field_name.length
+		)
+	);
 
 	EXPECT_EQ(read_amount, statement_str.size());
 }

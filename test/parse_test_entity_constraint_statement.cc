@@ -12,8 +12,8 @@ TEST(Parse, RequiredEntityConstraint) {
 		.data{},
 	};
 
-	auto statement_str = "optional ExampleComponent;"s;
-	ecsact_statement statement;
+	auto                statement_str = "optional ExampleComponent;"s;
+	ecsact_statement    statement;
 	ecsact_parse_status status;
 
 	auto read_amount = ecsact_parse_statement(
@@ -28,10 +28,14 @@ TEST(Parse, RequiredEntityConstraint) {
 	EXPECT_EQ(status.code, ECSACT_PARSE_STATUS_OK);
 
 	EXPECT_TRUE(statement.data.entity_constraint_statement.optional);
-	EXPECT_EQ("ExampleComponent", std::string_view(
-		statement.data.entity_constraint_statement.constraint_component_name.data,
-		statement.data.entity_constraint_statement.constraint_component_name.length
-	));
+	EXPECT_EQ(
+		"ExampleComponent",
+		std::string_view(
+			statement.data.entity_constraint_statement.constraint_component_name.data,
+			statement.data.entity_constraint_statement.constraint_component_name
+				.length
+		)
+	);
 
 	EXPECT_EQ(read_amount, statement_str.size());
 }
@@ -42,8 +46,8 @@ TEST(Parse, OptionalEntityConstraint) {
 		.data{},
 	};
 
-	auto statement_str = "required ExampleComponent;"s;
-	ecsact_statement statement;
+	auto                statement_str = "required ExampleComponent;"s;
+	ecsact_statement    statement;
 	ecsact_parse_status status;
 
 	auto read_amount = ecsact_parse_statement(
@@ -58,11 +62,14 @@ TEST(Parse, OptionalEntityConstraint) {
 	EXPECT_EQ(status.code, ECSACT_PARSE_STATUS_OK);
 
 	EXPECT_FALSE(statement.data.entity_constraint_statement.optional);
-	EXPECT_EQ("ExampleComponent", std::string_view(
-		statement.data.entity_constraint_statement.constraint_component_name.data,
-		statement.data.entity_constraint_statement.constraint_component_name.length
-	));
+	EXPECT_EQ(
+		"ExampleComponent",
+		std::string_view(
+			statement.data.entity_constraint_statement.constraint_component_name.data,
+			statement.data.entity_constraint_statement.constraint_component_name
+				.length
+		)
+	);
 
 	EXPECT_EQ(read_amount, statement_str.size());
 }
-

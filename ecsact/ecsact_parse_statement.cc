@@ -9,11 +9,7 @@
 using namespace ecsact::parse::detail;
 
 template<typename Fn>
-static auto context_grammar
-	( ecsact_statement_type  context_type
-	, Fn&&                   fn
-	)
-{
+static auto context_grammar(ecsact_statement_type context_type, Fn&& fn) {
 	switch(context_type) {
 		case ECSACT_STATEMENT_NONE:
 			return fn(grammar::top_level_statement{});
@@ -43,14 +39,13 @@ static auto context_grammar
 	return fn(grammar::top_level_statement{});
 }
 
-int ecsact_parse_statement
-	( const char*              statement_cstr
-	, int                      max_read_length
-	, const ecsact_statement*  context_statement
-	, ecsact_statement*        out_statement
-	, ecsact_parse_status*     out_status
-	)
-{
+int ecsact_parse_statement(
+	const char*             statement_cstr,
+	int                     max_read_length,
+	const ecsact_statement* context_statement,
+	ecsact_statement*       out_statement,
+	ecsact_parse_status*    out_status
+) {
 	static decltype(out_statement->id) last_id{};
 
 	const auto context_type = context_statement == nullptr
@@ -69,10 +64,10 @@ int ecsact_parse_statement
 		})
 	);
 
-	lexy::scan_result<grammar::statement_value> result = context_grammar(
-		context_type,
-		[&]<typename Grammar>(Grammar) { return scanner.parse<Grammar>(); }
-	);
+	lexy::scan_result<grammar::statement_value> result =
+		context_grammar(context_type, [&]<typename Grammar>(Grammar) {
+			return scanner.parse<Grammar>();
+		});
 
 	if(result) {
 		*out_statement = result.value().statement;

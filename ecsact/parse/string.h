@@ -6,7 +6,7 @@
  */
 typedef struct {
 	const char* data;
-	int length;
+	int         length;
 } ecsact_statement_sv;
 
 /**
@@ -14,13 +14,12 @@ typedef struct {
  * the full data pointer points to a similarily formatted string thus the 'mock'
  * part of the function name. No memory allocation is done in this function.
  */
-inline void ecsact_statement_sv_mock_copy
-	( const char*                 src_full_data
-	, const ecsact_statement_sv*  src
-	, const char*                 dst_full_data
-	, ecsact_statement_sv*        dst
-	)
-{
+inline void ecsact_statement_sv_mock_copy(
+	const char*                src_full_data,
+	const ecsact_statement_sv* src,
+	const char*                dst_full_data,
+	ecsact_statement_sv*       dst
+) {
 	auto offset = src->data - src_full_data;
 	dst->data = dst_full_data + offset;
 	dst->length = src->length;

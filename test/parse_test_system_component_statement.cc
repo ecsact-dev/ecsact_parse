@@ -6,25 +6,22 @@
 
 using namespace std::string_literals;
 
-void TestValidSystemComponent
-	( std::string_view          statement_str
-	, ecsact_system_capability  expected_capability
-	, std::string_view          expected_component_name
-	, std::string_view          expected_with_entity_field_name = ""
-	)
-{
-	auto system_name = "ExampleSystem"s;
+void TestValidSystemComponent(
+	std::string_view         statement_str,
+	ecsact_system_capability expected_capability,
+	std::string_view         expected_component_name,
+	std::string_view         expected_with_entity_field_name = ""
+) {
+	auto             system_name = "ExampleSystem"s;
 	ecsact_statement component_statement{
 		.type = ECSACT_STATEMENT_SYSTEM,
-		.data{.system_statement{
-			.system_name{
-				.data = system_name.data(),
-				.length = static_cast<int>(system_name.size()),
-			}
-		}},
+		.data{.system_statement{.system_name{
+			.data = system_name.data(),
+			.length = static_cast<int>(system_name.size()),
+		}}},
 	};
 
-	ecsact_statement statement;
+	ecsact_statement    statement;
 	ecsact_parse_status status;
 
 	auto read_amount = ecsact_parse_statement(
@@ -42,15 +39,21 @@ void TestValidSystemComponent
 		expected_capability,
 		statement.data.system_component_statement.capability
 	);
-	EXPECT_EQ(expected_component_name, std::string_view(
-		statement.data.system_component_statement.component_name.data,
-		statement.data.system_component_statement.component_name.length
-	));
+	EXPECT_EQ(
+		expected_component_name,
+		std::string_view(
+			statement.data.system_component_statement.component_name.data,
+			statement.data.system_component_statement.component_name.length
+		)
+	);
 
-	EXPECT_EQ(expected_with_entity_field_name, std::string_view(
-		statement.data.system_component_statement.with_entity_field_name.data,
-		statement.data.system_component_statement.with_entity_field_name.length
-	));
+	EXPECT_EQ(
+		expected_with_entity_field_name,
+		std::string_view(
+			statement.data.system_component_statement.with_entity_field_name.data,
+			statement.data.system_component_statement.with_entity_field_name.length
+		)
+	);
 
 	EXPECT_EQ(read_amount, statement_str.size());
 }
@@ -126,7 +129,6 @@ TEST(Parse, AddsSystemComponent) {
 		"ExampleComponent"
 	);
 }
-
 
 TEST(Parse, RemovesSystemComponent) {
 	TestValidSystemComponent(

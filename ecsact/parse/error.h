@@ -13,7 +13,7 @@ typedef enum {
 
 typedef struct {
 	ecsact_parse_error_code code;
-	ecsact_statement_sv error_location;
+	ecsact_statement_sv     error_location;
 } ecsact_parse_error;
 
-#endif// ECSACT_PARSE_ERROR_H
+#endif // ECSACT_PARSE_ERROR_H

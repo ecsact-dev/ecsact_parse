@@ -7,19 +7,17 @@
 using namespace std::string_literals;
 
 TEST(Parse, SystemGenerates) {
-	auto system_name = "ExampleSystem"s;
+	auto             system_name = "ExampleSystem"s;
 	ecsact_statement component_statement{
 		.type = ECSACT_STATEMENT_SYSTEM,
-		.data{.system_statement{
-			.system_name{
-				.data = system_name.data(),
-				.length = static_cast<int>(system_name.size()),
-			}
-		}},
+		.data{.system_statement{.system_name{
+			.data = system_name.data(),
+			.length = static_cast<int>(system_name.size()),
+		}}},
 	};
 
-	auto statement_str = "generates {"s;
-	ecsact_statement statement;
+	auto                statement_str = "generates {"s;
+	ecsact_statement    statement;
 	ecsact_parse_status status;
 
 	auto read_amount = ecsact_parse_statement(
