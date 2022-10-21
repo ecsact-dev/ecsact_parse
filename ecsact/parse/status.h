@@ -43,10 +43,7 @@ typedef enum {
 	ECSACT_PARSE_STATUS_SYNTAX_ERROR,
 } ecsact_parse_status_code;
 
-inline bool ecsact_is_error_parse_status_code
-	( ecsact_parse_status_code code
-	)
-{
+inline bool ecsact_is_error_parse_status_code(ecsact_parse_status_code code) {
 	return (int)code > (int)ECSACT_PARSE_STATUS_ASSUMED_STATEMENT_END;
 }
 

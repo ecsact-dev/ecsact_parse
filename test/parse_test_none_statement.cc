@@ -7,8 +7,8 @@
 using namespace std::string_literals;
 
 TEST(Parse, NoneStatement) {
-	auto statement_str = "  "s;
-	ecsact_statement statement;
+	auto                statement_str = "  "s;
+	ecsact_statement    statement;
 	ecsact_parse_status status;
 
 	auto read_amount = ecsact_parse_statement(
