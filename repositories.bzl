@@ -39,7 +39,7 @@ def ecsact_parse_dependencies():
     http_archive(
         name = "lexy",
         build_file_content = _LEXY_BUILD_FILE_CONTENT,
-        sha256 = "59607e4e2691c0c03068f1f9a7043f2d4703f5c9c48ec42a318b43aae9468386",
+        sha256 = "de2199f8233ea5ed9d4dbe86a8eaf88d754decd28e28554329a7b29b4d952773",
         url = "https://github.com/foonathan/lexy/releases/download/v2022.05.1/lexy-src.zip",
     )
 
