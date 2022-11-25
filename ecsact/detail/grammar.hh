@@ -32,10 +32,24 @@ struct eof {
 };
 
 struct parse_end {
-	static constexpr auto rule = lexy::dsl::p<statement_end> |
-		lexy::dsl::p<statement_block_end> | lexy::dsl::p<statement_block_begin> |
-		lexy::dsl::p<eof>;
+	static constexpr auto rule =
+		(lexy::dsl::p<statement_end> | lexy::dsl::p<statement_block_end> |
+		 lexy::dsl::p<statement_block_begin>) |
+		(lexy::dsl::p<statement_end> | lexy::dsl::p<statement_block_end> |
+		 lexy::dsl::p<statement_block_begin> | lexy::dsl::p<eof>);
 	static constexpr auto value = lexy::forward<ecsact_parse_status_code>;
+	// static constexpr auto value = lexy::callback<ecsact_parse_status_code>(
+	// 	[](
+	// 		ecsact_parse_status_code first_status,
+	// 		std::optional<ecsact_parse_status_code> second_status
+	// 	) -> ecsact_parse_status_code {
+	// 		if(first_status) {
+	// 			return *first_status;
+	// 		}
+
+	// 		return *second_status;
+	// 	}
+	// );
 };
 
 struct statement_body {
