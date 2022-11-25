@@ -32,9 +32,11 @@ struct eof {
 };
 
 struct parse_end {
-	static constexpr auto rule = lexy::dsl::p<statement_end> |
-		lexy::dsl::p<statement_block_end> | lexy::dsl::p<statement_block_begin> |
-		lexy::dsl::p<eof>;
+	static constexpr auto rule =
+		(lexy::dsl::p<statement_end> | lexy::dsl::p<statement_block_end> |
+		 lexy::dsl::p<statement_block_begin>) |
+		(lexy::dsl::p<statement_end> | lexy::dsl::p<statement_block_end> |
+		 lexy::dsl::p<statement_block_begin> | lexy::dsl::p<eof>);
 	static constexpr auto value = lexy::forward<ecsact_parse_status_code>;
 };
 
