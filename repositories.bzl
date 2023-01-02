@@ -31,9 +31,9 @@ def ecsact_parse_dependencies():
 
     http_archive(
         name = "ecsact_runtime",
-        sha256 = "802cbd8dc32163c899acb3926157efd85d0a6278ad0349e26cc53712fa718a31",
-        strip_prefix = "ecsact_runtime-d374ccecd2d6b7221e90949fefd1031d36eb3c8b",
-        url = "https://github.com/ecsact-dev/ecsact_runtime/archive/d374ccecd2d6b7221e90949fefd1031d36eb3c8b.zip",
+        sha256 = "5ee669e5d8eea3ce49fcbfd62560250d80ed41f79eaadec2019912d769232f40",
+        strip_prefix = "ecsact_runtime-212add69c0689f575635c1a1e0cbfbcf1060308a",
+        url = "https://github.com/ecsact-dev/ecsact_runtime/archive/212add69c0689f575635c1a1e0cbfbcf1060308a.zip",
     )
 
     http_archive(
