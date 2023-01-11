@@ -45,7 +45,7 @@ def ecsact_parse_dependencies():
 
     http_archive(
         name = "magic_enum",
-        sha256 = "6b948d1680f02542d651fc82154a9e136b341ce55c5bf300736b157e23f9df11",
-        strip_prefix = "magic_enum-0.8.1",
-        url = "https://github.com/Neargye/magic_enum/archive/refs/tags/v0.8.1.tar.gz",
+        sha256 = "62bd7034bbbfc3d7806001767d5775ab42f3ff33bb38366e1ceb21102f0dff9a",
+        strip_prefix = "magic_enum-0.8.2",
+        url = "https://github.com/Neargye/magic_enum/archive/refs/tags/v0.8.2.tar.gz",
     )
