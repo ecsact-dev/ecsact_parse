@@ -24,9 +24,9 @@ def http_archive(name, **kwargs):
 def ecsact_parse_dependencies():
     http_archive(
         name = "bazel_sundry",
-        sha256 = "4ee3c8e29eb3d4f34b1ca7d2374437b5c6f0fd62316f90e38e9f32119421466d",
-        strip_prefix = "bazel_sundry-de785e9f424948949cafed3ee8bee9689dc84a80",
-        url = "https://github.com/seaube/bazel_sundry/archive/de785e9f424948949cafed3ee8bee9689dc84a80.zip",
+        sha256 = "fe4b366bf928dad7a074037f98651a4cfc2f7d132e150e0542ae87ea7172dca9",
+        strip_prefix = "bazel_sundry-c3735667ea3d31ff78a8398359f49781fe75b7aa",
+        url = "https://github.com/seaube/bazel_sundry/archive/c3735667ea3d31ff78a8398359f49781fe75b7aa.zip",
     )
 
     http_archive(
