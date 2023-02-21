@@ -819,4 +819,55 @@ using system_with_entity_level_statement = statement<
 	system_component_statement,
 	with_statement>;
 
+constexpr char package_level_statement_name[] = "package level statement";
+constexpr char package_level_statement_expected_message[] =
+	"package level statements are not allowed";
+using package_level_statement = statement<
+	package_level_statement_name,
+	package_level_statement_expected_message,
+	none_statement>;
+
+constexpr char import_level_statement_name[] = "import level statement";
+constexpr char import_level_statement_expected_message[] =
+	"import level statements are not allowed";
+using import_level_statement = statement<
+	import_level_statement_name,
+	import_level_statement_expected_message,
+	none_statement>;
+
+constexpr char enum_value_level_statement_name[] = "enum value level statement";
+constexpr char enum_value_level_statement_expected_message[] =
+	"enum value level statements are not allowed";
+using enum_value_level_statement = statement<
+	enum_value_level_statement_name,
+	enum_value_level_statement_expected_message,
+	none_statement>;
+
+constexpr char builtin_type_field_level_statement_name[] =
+	"builtin type field level statement";
+constexpr char builtin_type_field_level_statement_expected_message[] =
+	"builtin type field level statements are not allowed";
+using builtin_type_field_level_statement = statement<
+	builtin_type_field_level_statement_name,
+	builtin_type_field_level_statement_expected_message,
+	none_statement>;
+
+constexpr char user_type_field_level_statement_name[] =
+	"user type field level statement";
+constexpr char user_type_field_level_statement_expected_message[] =
+	"user type field level statements are not allowed";
+using user_type_field_level_statement = statement<
+	user_type_field_level_statement_name,
+	user_type_field_level_statement_expected_message,
+	none_statement>;
+
+constexpr char entity_constraint_level_statement_name[] =
+	"entity constraint level statement";
+constexpr char entity_constraint_level_statement_expected_message[] =
+	"entity constraint level statements are not allowed";
+using entity_constraint_level_statement = statement<
+	entity_constraint_level_statement_name,
+	entity_constraint_level_statement_expected_message,
+	none_statement>;
+
 } // namespace ecsact::parse::detail::grammar

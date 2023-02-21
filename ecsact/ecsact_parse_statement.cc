@@ -33,6 +33,19 @@ static auto context_grammar(ecsact_statement_type context_type, Fn&& fn) {
 			return fn(grammar::system_component_level_statement{});
 		case ECSACT_STATEMENT_SYSTEM_WITH_ENTITY:
 			return fn(grammar::system_with_entity_level_statement{});
+		case ECSACT_STATEMENT_PACKAGE:
+			return fn(grammar::package_level_statement{});
+		case ECSACT_STATEMENT_IMPORT:
+			return fn(grammar::import_level_statement{});
+		case ECSACT_STATEMENT_ENUM_VALUE:
+			return fn(grammar::enum_value_level_statement{});
+		case ECSACT_STATEMENT_BUILTIN_TYPE_FIELD:
+			return fn(grammar::builtin_type_field_level_statement{});
+		case ECSACT_STATEMENT_USER_TYPE_FIELD:
+			return fn(grammar::user_type_field_level_statement{});
+		case ECSACT_STATEMENT_ENTITY_CONSTRAINT:
+			return fn(grammar::entity_constraint_level_statement{});
+			break;
 	}
 
 	assert(false && "unhandled context grammar");
