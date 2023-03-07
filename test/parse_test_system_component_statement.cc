@@ -204,3 +204,24 @@ TEST(Parse, IncludeSystemComponentWithEntity) {
 		"example_entity"
 	);
 }
+
+////////////////////////////////////
+// components from other packages //
+////////////////////////////////////
+
+TEST(Parse, OtherPackageFullyQualified) {
+	TestValidSystemComponent(
+		"readwrite other.pkg.ExampleComponent;"s,
+		ECSACT_SYS_CAP_READWRITE,
+		"other.pkg.ExampleComponent"
+	);
+}
+
+TEST(Parse, IncludeSystemComponentWithEntityFullQualified) {
+	TestValidSystemComponent(
+		"include other.pkg.ExampleComponent with example_entity;"s,
+		ECSACT_SYS_CAP_INCLUDE,
+		"other.pkg.ExampleComponent",
+		"example_entity"
+	);
+}

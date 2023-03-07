@@ -65,7 +65,20 @@ struct whitespace {
 		lexy::dsl::inline_<line_comment> | lexy::dsl::inline_<block_comment>;
 };
 
+/**
+ * Lookupable type name
+ */
 struct type_name {
+	static constexpr auto rule = lexy::dsl::
+		identifier(lexy::dsl::ascii::alpha, lexy::dsl::ascii::alnum / lexy::dsl::lit_c<'.'>);
+
+	static constexpr auto value = lexy::as_string<std::string_view>;
+};
+
+/**
+ * Type name used for declaration
+ */
+struct type_name_decl {
 	static constexpr auto rule =
 		lexy::dsl::identifier(lexy::dsl::ascii::alpha, lexy::dsl::ascii::alnum);
 
@@ -179,7 +192,7 @@ struct component_statement {
 	};
 
 	static constexpr auto rule = lexy::dsl::p<component_keyword> >>
-		lexy::dsl::p<type_name>;
+		lexy::dsl::p<type_name_decl>;
 
 	static constexpr auto value =
 		lexy::callback<ecsact_statement>([](std::string_view component_name) {
@@ -206,7 +219,7 @@ struct transient_statement {
 	};
 
 	static constexpr auto rule = lexy::dsl::p<transient_keyword> >>
-		lexy::dsl::p<type_name>;
+		lexy::dsl::p<type_name_decl>;
 
 	static constexpr auto value =
 		lexy::callback<ecsact_statement>([](std::string_view transient_name) {
@@ -229,7 +242,7 @@ struct system_statement {
 	};
 
 	static constexpr auto rule = lexy::dsl::p<system_keyword> >>
-		lexy::dsl::opt(lexy::dsl::p<type_name>);
+		lexy::dsl::opt(lexy::dsl::p<type_name_decl>);
 
 	static constexpr auto value = lexy::callback<ecsact_statement>(
 		[](std::optional<std::string_view> system_name) {
@@ -257,7 +270,7 @@ struct action_statement {
 	};
 
 	static constexpr auto rule = lexy::dsl::p<action_keyword> >>
-		lexy::dsl::p<type_name>;
+		lexy::dsl::p<type_name_decl>;
 
 	static constexpr auto value =
 		lexy::callback<ecsact_statement>([](std::string_view action_name) {
@@ -284,7 +297,7 @@ struct enum_statement {
 	};
 
 	static constexpr auto rule = lexy::dsl::p<enum_keyword> >>
-		lexy::dsl::p<type_name>;
+		lexy::dsl::p<type_name_decl>;
 
 	static constexpr auto value =
 		lexy::callback<ecsact_statement>([](std::string_view enum_name) {
