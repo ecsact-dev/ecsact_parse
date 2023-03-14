@@ -70,7 +70,7 @@ struct whitespace {
  */
 struct type_name {
 	static constexpr auto rule = lexy::dsl::
-		identifier(lexy::dsl::ascii::alpha, lexy::dsl::ascii::alnum / lexy::dsl::lit_c<'.'>);
+		identifier(lexy::dsl::ascii::alpha, lexy::dsl::ascii::alnum / lexy::dsl::lit_c<'.'> / lexy::dsl::lit_c<'_'>);
 
 	static constexpr auto value = lexy::as_string<std::string_view>;
 };
