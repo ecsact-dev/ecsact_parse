@@ -93,6 +93,30 @@ typedef struct {
 	ecsact_statement_sv constraint_component_name;
 } ecsact_entity_constraint_statement;
 
+typedef enum {
+	ECSACT_STATEMENT_PARAM_VALUE_TYPE_BOOL,
+	ECSACT_STATEMENT_PARAM_VALUE_TYPE_INTEGER,
+	ECSACT_STATEMENT_PARAM_VALUE_TYPE_FLOAT,
+	ECSACT_STATEMENT_PARAM_VALUE_TYPE_STRING,
+} ecsact_statement_parameter_value_type;
+
+typedef union {
+	bool                bool_value;
+	int32_t             integer_value;
+	float               float_value;
+	ecsact_statement_sv string_value;
+} ecsact_statement_parameter_value_data;
+
+typedef struct {
+	ecsact_statement_parameter_value_type type;
+	ecsact_statement_parameter_value_data data;
+} ecsact_statement_parameter_value;
+
+typedef struct {
+	ecsact_statement_sv              name;
+	ecsact_statement_parameter_value value;
+} ecsact_statement_parameter;
+
 typedef union {
 	ecsact_package_statement            package_statement;
 	ecsact_import_statement             import_statement;
@@ -124,6 +148,16 @@ typedef struct ecsact_statement {
 	 * Valid union member determined by `type`
 	 */
 	ecsact_statement_data data;
+
+	/**
+	 * Length of parameters. Max length is 16
+	 */
+	int32_t parameters_length;
+
+	/**
+	 * List of parameters for this statement. Max length is 16
+	 */
+	ecsact_statement_parameter parameters[16];
 } ecsact_statement;
 
 #endif // ECSACT_PARSE_STATEMENTS_H

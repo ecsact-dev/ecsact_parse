@@ -10,6 +10,7 @@ _TESTS = [
     "import_statement",
     "none_statement",
     "package_statement",
+    "parameter",
     "sequential_statements",
     "system_component_statement",
     "system_generates_statement",
