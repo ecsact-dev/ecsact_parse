@@ -83,8 +83,10 @@ int ecsact_parse_statement(
 		});
 
 	if(result) {
-		*out_statement = result.value().statement;
-		out_status->code = result.value().status;
+		auto statement_value = result.value();
+		statement_value.collect_parameters();
+		*out_statement = statement_value.statement;
+		out_status->code = statement_value.status;
 	}
 
 	out_statement->id = ++last_id;

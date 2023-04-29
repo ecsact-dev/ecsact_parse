@@ -2,6 +2,7 @@
 
 #include <string_view>
 #include <optional>
+#include <vector>
 #include <lexy/dsl.hpp>
 #include <lexy/callback.hpp>
 #include "ecsact/parse/status.h"
@@ -63,6 +64,106 @@ struct block_comment {
 struct whitespace {
 	static constexpr auto rule = lexy::dsl::ascii::space |
 		lexy::dsl::inline_<line_comment> | lexy::dsl::inline_<block_comment>;
+};
+
+struct parameter_name {
+	static constexpr auto rule = lexy::dsl::
+		identifier(lexy::dsl::ascii::alpha, lexy::dsl::ascii::alnum / lexy::dsl::lit_c<'_'>);
+
+	static constexpr auto value = lexy::as_string<std::string_view>;
+};
+
+struct parameter_value {
+	struct invalid_value_syntax {
+		static constexpr auto name = "Invalid parameter value syntax";
+	};
+
+	struct number {
+		static constexpr auto rule = [] {
+			using namespace lexy;
+			auto digits = dsl::digits<>.sep(dsl::digit_sep_tick).no_leading_zero();
+			return dsl::integer<int32_t>(digits);
+		}();
+
+		static constexpr auto value = lexy::as_integer<int32_t>;
+	};
+
+	struct boolean {
+		struct true_keyword : lexy::transparent_production {
+			static constexpr auto rule = LEXY_LIT("true");
+			static constexpr auto value = lexy::constant(true);
+		};
+
+		struct false_keyword : lexy::transparent_production {
+			static constexpr auto rule = LEXY_LIT("false");
+			static constexpr auto value = lexy::constant(false);
+		};
+
+		static constexpr auto rule = lexy::dsl::p<true_keyword> |
+			lexy::dsl::p<false_keyword>;
+
+		static constexpr auto value = lexy::forward<bool>;
+	};
+
+	static constexpr auto rule = lexy::dsl::p<number> | lexy::dsl::p<boolean>;
+
+	using value_variant = std::variant<bool, int32_t>;
+
+	static constexpr auto value = lexy::callback<value_variant>(
+		[](auto&& value) -> value_variant { return value_variant{value}; }
+	);
+};
+
+struct parameter {
+	using value_variant = typename parameter_value::value_variant;
+
+	static void _set_value(ecsact_statement_parameter& param, int32_t value) {
+		param.value.type = ECSACT_STATEMENT_PARAM_VALUE_TYPE_INTEGER;
+		param.value.data.integer_value = value;
+	}
+
+	static void _set_value(ecsact_statement_parameter& param, bool value) {
+		param.value.type = ECSACT_STATEMENT_PARAM_VALUE_TYPE_BOOL;
+		param.value.data.bool_value = value;
+	}
+
+	static constexpr auto rule = lexy::dsl::p<parameter_name> >>
+		lexy::dsl::opt(lexy::dsl::lit_c<':'> >> lexy::dsl::p<parameter_value>);
+
+	static constexpr auto value = lexy::callback<ecsact_statement_parameter>(
+		[](std::string_view param_name, std::optional<value_variant> param_value) {
+			auto result = ecsact_statement_parameter{};
+			result.name = ecsact_statement_sv{
+				.data = param_name.data(),
+				.length = static_cast<int32_t>(param_name.size()),
+			};
+
+			if(param_value) {
+				std::visit(
+					[&](auto&& param_value) {
+						parameter::_set_value(result, param_value);
+					},
+					*param_value
+				);
+			} else {
+				parameter::_set_value(result, true);
+			}
+
+			return result;
+		}
+	);
+};
+
+struct parameters {
+	static constexpr auto rule = [] {
+		return lexy::dsl::parenthesized.list(
+			lexy::dsl::p<parameter>,
+			lexy::dsl::sep(lexy::dsl::comma)
+		);
+	}();
+
+	static constexpr auto value =
+		lexy::as_list<std::vector<ecsact_statement_parameter>>;
 };
 
 /**
@@ -690,6 +791,26 @@ struct control {
 struct statement_value {
 	ecsact_statement         statement;
 	ecsact_parse_status_code status;
+
+	/**
+	 * Temporary parameters that will be added to `statement`.
+	 * SEE: collect_parameters
+	 */
+	std::optional<std::vector<ecsact_statement_parameter>> _parameters;
+
+	auto collect_parameters() {
+		if(_parameters) {
+			auto parameters = *_parameters;
+			statement.parameters_length = static_cast<int32_t>(parameters.size());
+			for(int i = 0; statement.parameters_length > i; ++i) {
+				statement.parameters[i] = parameters[i];
+			}
+
+			_parameters = std::nullopt;
+		} else {
+			statement.parameters_length = 0;
+		}
+	}
 };
 
 template<
@@ -716,10 +837,13 @@ struct statement {
 
 		auto statement =
 			(lexyd::member<& statement_value::statement> = statement_p);
+		auto statement_params =
+			(lexyd::member<& statement_value::_parameters> =
+				 lexy::dsl::opt(lexyd::p<parameters>));
 		auto status =
 			(lexyd::member<& statement_value::status> = lexyd::p<parse_end>);
 
-		return statement + status;
+		return statement + statement_params + status;
 	}();
 
 	static constexpr auto value = lexy::as_aggregate<statement_value>;
