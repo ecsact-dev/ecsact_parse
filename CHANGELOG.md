@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.2.1 - 2023-05-01
+#### Bug Fixes
+- missing variant include - (59a108b) - Ezekiel Warren
+#### Miscellaneous Chores
+- add cog.toml - (3cbeabb) - Ezekiel Warren
+
+- - -
+
 ## 0.2.0 - 2023-04-30
 #### Features
 - statement parameters parsing (#90) - (23c8367) - Ezekiel Warren
