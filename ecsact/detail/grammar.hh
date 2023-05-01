@@ -3,6 +3,7 @@
 #include <string_view>
 #include <optional>
 #include <vector>
+#include <variant>
 #include <lexy/dsl.hpp>
 #include <lexy/callback.hpp>
 #include "ecsact/parse/status.h"
