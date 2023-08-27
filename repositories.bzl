@@ -1,5 +1,6 @@
 load("@bazel_tools//tools/build_defs/repo:http.bzl", _http_archive = "http_archive")
 load("@bazel_tools//tools/build_defs/repo:utils.bzl", "maybe")
+load("@ecsact_parse//bazel:copts.bzl", "copts")
 
 _LEXY_BUILD_FILE_CONTENT = """
 load("@rules_cc//cc:defs.bzl", "cc_library")
@@ -11,10 +12,7 @@ cc_library(
     hdrs = glob(["include/**/*.hpp"]),
     srcs = ["src/input/file.cpp"],
     strip_include_prefix = "include",
-    copts = select({
-        "@bazel_tools//tools/cpp:msvc": ["/std:c++latest"],
-        "//conditions:default": ["-std=c++20"],
-    }),
+    copts = copts,
 )
 """
 
