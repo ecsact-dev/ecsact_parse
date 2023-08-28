@@ -16,13 +16,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: jidicula/clang-format-action@v4.9.0
-        with: { clang-format-version: "15" }
-  test-windows:
+        with: { clang-format-version: "16" }
 
+  test-windows:
     runs-on: windows-latest
     steps:
-      - name: bazel visual studio 17.6+ workaround # https://github.com/bazelbuild/bazel/issues/18592
-        run: Remove-Item -Path "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\vcpkg" -Force -Recurse
       - uses: actions/cache@v3
         with:
           path: |
@@ -31,6 +29,7 @@ jobs:
           key: ${{runner.os}}-bazel-cache
       - uses: actions/checkout@v3
       - run: bazel test --config=ci //...
+
   test-linux:
     runs-on: ubuntu-latest
     steps:
@@ -41,4 +40,4 @@ jobs:
             ~/.cache/bazel-disk-cache
           key: ${{runner.os}}-bazel-cache
       - uses: actions/checkout@v3
-      - run: bazel test --config=ci --config=no-warnings //...
+      - run: bazel test --config=ci //...
