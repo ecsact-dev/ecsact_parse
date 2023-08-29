@@ -2,3 +2,17 @@ module(name = "ecsact_parse")
 
 bazel_dep(name = "rules_cc", version = "0.0.8")
 bazel_dep(name = "bazel_skylib", version = "1.4.2")
+bazel_dep(name = "lexy")
+bazel_dep(name = "magic_enum")
+
+git_override(
+    module_name = "lexy",
+    remote = "https://github.com/zaucy/lexy",
+    commit = "6be29cc1b26f93c35b987979ab304ade7a506400",
+)
+
+git_override(
+    module_name = "magic_enum",
+    remote = "https://github.com/Neargye/magic_enum",
+    commit = "745bf36a64962aa113bd04fb9d2d377e7878d2ef",
+)
