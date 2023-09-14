@@ -2,6 +2,34 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.2.2 - 2023-09-14
+#### Miscellaneous Chores
+- **(deps)** update com_grail_bazel_toolchain digest to e4fad4e (#114) - (b9a2a51) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to df8ee5a (#113) - (d148608) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to c217c03 (#108) - (fe667ca) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 9d8cc8a (#105) - (dd91769) - renovate[bot]
+- **(deps)** bzlmodify more deps (#104) - (3632c0a) - Ezekiel Warren
+- **(deps)** update hedron_compile_commands digest to e160627 (#102) - (eb84a44) - renovate[bot]
+- **(deps)** update hedron_compile_commands digest to ecafb96 (#101) - (42cd51a) - renovate[bot]
+- **(deps)** update hedron_compile_commands digest to aaa2fda (#100) - (85ee680) - renovate[bot]
+- **(deps)** update hedron_compile_commands digest to 86dbf52 (#99) - (73f3ea6) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to f94335f (#98) - (9e40b57) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to c65ef7a (#96) - (f8f2016) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to ceeedcc (#95) - (6cc4bfd) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to b397ad2 (#94) - (7c4b8e2) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 41ff2a0 (#93) - (a3c2c3a) - renovate[bot]
+- **(deps)** update hedron_compile_commands digest to 3dddf20 (#92) - (71c5f19) - renovate[bot]
+- **(deps)** update hedron_compile_commands digest to 80ac7ef (#91) - (5f7b930) - renovate[bot]
+- bzlmod tests (#115) - (e42381c) - Ezekiel Warren
+- sync with ecsact_common (#112) - (f4dcc5e) - seaubot
+- sync with ecsact_common (#111) - (21a4f85) - seaubot
+- sync with ecsact_common (#110) - (6832abc) - seaubot
+- sync with ecsact_common (#109) - (1d185c0) - seaubot
+- sync with ecsact_common (#103) - (80e4e74) - seaubot
+- bazel visual studio 17.6 workaround (#97) - (819f9c2) - Ezekiel Warren
+
+- - -
+
 ## 0.2.1 - 2023-05-01
 #### Bug Fixes
 - missing variant include - (59a108b) - Ezekiel Warren
