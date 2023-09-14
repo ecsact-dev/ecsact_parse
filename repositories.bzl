@@ -7,9 +7,9 @@ def http_archive(name, **kwargs):
 def ecsact_parse_dependencies():
     http_archive(
         name = "bazel_sundry",
-        sha256 = "4ee3c8e29eb3d4f34b1ca7d2374437b5c6f0fd62316f90e38e9f32119421466d",
-        strip_prefix = "bazel_sundry-de785e9f424948949cafed3ee8bee9689dc84a80",
-        url = "https://github.com/seaube/bazel_sundry/archive/de785e9f424948949cafed3ee8bee9689dc84a80.zip",
+        sha256 = "3e6a77b27b99aea693fed5b7fbca27d1ece8b5f1ab492e12f977d4c282a5d97b",
+        strip_prefix = "bazel_sundry-cca04d615a173685469ef4d94a6473d0783fab8b",
+        url = "https://github.com/seaube/bazel_sundry/archive/cca04d615a173685469ef4d94a6473d0783fab8b.zip",
     )
 
     http_archive(
