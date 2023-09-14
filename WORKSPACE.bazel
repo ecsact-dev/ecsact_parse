@@ -1,16 +1,4 @@
-workspace(name = "ecsact_parse")
-
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
-load("//:repositories.bzl", "ecsact_parse_dependencies")
-
-ecsact_parse_dependencies()
-
-http_archive(
-    name = "com_google_googletest",
-    sha256 = "d4cb2430eb82495a49a24310a609b99726726bf126c2fbfa92fd04c14f6a3b31",
-    strip_prefix = "googletest-d1a0039b97291dd1dc14f123b906bb7622ffe07c",
-    url = "https://github.com/google/googletest/archive/d1a0039b97291dd1dc14f123b906bb7622ffe07c.zip",
-)
 
 http_archive(
     name = "hedron_compile_commands",
