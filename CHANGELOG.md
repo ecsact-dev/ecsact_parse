@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.3.2 - 2023-09-22
+#### Miscellaneous Chores
+- **(deps)** update dependency ecsact_runtime to v0.5.1 (#80) - (cdd20de) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 2733561 (#121) - (819f6e8) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 885e692 (#119) - (793837b) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 3e6d4d9 (#118) - (1b06ae6) - renovate[bot]
+- sync with ecsact_common (#120) - (593c281) - seaubot
+
+- - -
+
 ## 0.3.0 - 2023-09-18
 #### Miscellaneous Chores
 - **(deps)** update ecsact_runtime (#117) - (89ef436) - Ezekiel Warren
