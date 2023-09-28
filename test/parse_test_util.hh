@@ -44,7 +44,7 @@
                                                              \
 		EXPECT_NE(status.code, ECSACT_PARSE_STATUS_OK);          \
 		EXPECT_EQ(status.code, ECSACT_PARSE_STATUS_##BadStatus); \
-		EXPECT_EQ(read_amount, 0);            \
+		EXPECT_EQ(read_amount, 0);                               \
 	}                                                          \
 	static_assert(true, "Macro requires ;")
 
