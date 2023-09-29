@@ -45,7 +45,10 @@ static auto context_grammar(ecsact_statement_type context_type, Fn&& fn) {
 			return fn(grammar::user_type_field_level_statement{});
 		case ECSACT_STATEMENT_ENTITY_CONSTRAINT:
 			return fn(grammar::entity_constraint_level_statement{});
-			break;
+		case ECSACT_STATEMENT_SYSTEM_NOTIFY:
+			return fn(grammar::system_notify_level_statement{});
+		case ECSACT_STATEMENT_SYSTEM_NOTIFY_COMPONENT:
+			return fn(grammar::system_notify_component_level_statement{});
 	}
 
 	assert(false && "unhandled context grammar");

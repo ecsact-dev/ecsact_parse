@@ -24,6 +24,8 @@ typedef enum {
 	ECSACT_STATEMENT_SYSTEM_GENERATES,
 	ECSACT_STATEMENT_SYSTEM_WITH_ENTITY,
 	ECSACT_STATEMENT_ENTITY_CONSTRAINT,
+	ECSACT_STATEMENT_SYSTEM_NOTIFY,
+	ECSACT_STATEMENT_SYSTEM_NOTIFY_COMPONENT,
 } ecsact_statement_type;
 
 typedef struct {
@@ -117,20 +119,34 @@ typedef struct {
 	ecsact_statement_parameter_value value;
 } ecsact_statement_parameter;
 
+typedef struct {
+	/**
+	 * Notify setting name. May be empty.
+	 */
+	ecsact_statement_sv setting_name;
+} ecsact_system_notify_statement;
+
+typedef struct {
+	ecsact_statement_sv setting_name;
+	ecsact_statement_sv component_name;
+} ecsact_system_notify_component_statement;
+
 typedef union {
-	ecsact_package_statement            package_statement;
-	ecsact_import_statement             import_statement;
-	ecsact_component_statement          component_statement;
-	ecsact_transient_statement          transient_statement;
-	ecsact_system_statement             system_statement;
-	ecsact_action_statement             action_statement;
-	ecsact_enum_statement               enum_statement;
-	ecsact_enum_value_statement         enum_value_statement;
-	ecsact_field_statement              field_statement;
-	ecsact_user_type_field_statement    user_type_field_statement;
-	ecsact_system_component_statement   system_component_statement;
-	ecsact_system_with_entity_statement system_with_entity_statement;
-	ecsact_entity_constraint_statement  entity_constraint_statement;
+	ecsact_package_statement                 package_statement;
+	ecsact_import_statement                  import_statement;
+	ecsact_component_statement               component_statement;
+	ecsact_transient_statement               transient_statement;
+	ecsact_system_statement                  system_statement;
+	ecsact_action_statement                  action_statement;
+	ecsact_enum_statement                    enum_statement;
+	ecsact_enum_value_statement              enum_value_statement;
+	ecsact_field_statement                   field_statement;
+	ecsact_user_type_field_statement         user_type_field_statement;
+	ecsact_system_component_statement        system_component_statement;
+	ecsact_system_with_entity_statement      system_with_entity_statement;
+	ecsact_entity_constraint_statement       entity_constraint_statement;
+	ecsact_system_notify_statement           system_notify_statement;
+	ecsact_system_notify_component_statement system_notify_component_statement;
 } ecsact_statement_data;
 
 typedef struct ecsact_statement {

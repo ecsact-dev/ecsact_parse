@@ -775,6 +775,61 @@ struct with_statement {
 		});
 };
 
+struct system_notify_statement {
+	static constexpr auto name() {
+		return "system notify statement";
+	}
+
+	struct notify_keyword : lexy::transparent_production {
+		static constexpr auto rule = LEXY_LIT("notify");
+		static constexpr auto value = lexy::noop;
+	};
+
+	static constexpr auto rule = lexy::dsl::p<notify_keyword> >>
+		lexy::dsl::opt(lexy::dsl::p<type_name>);
+
+	static constexpr auto value = lexy::callback<ecsact_statement>(
+		[](std::optional<std::string_view> setting_name) {
+			return ecsact_statement{
+				.type = ECSACT_STATEMENT_SYSTEM_NOTIFY,
+				.data{.system_notify_statement{
+					.setting_name{
+						.data = setting_name ? setting_name->data() : nullptr,
+						.length = setting_name ? static_cast<int>(setting_name->size()) : 0,
+					},
+				}},
+			};
+		}
+	);
+};
+
+struct system_notify_component_statement {
+	static constexpr auto name() {
+		return "system notify component statement";
+	}
+
+	static constexpr auto rule = lexy::dsl::p<type_name> >>
+		lexy::dsl::p<type_name>;
+
+	static constexpr auto value = lexy::callback<ecsact_statement>(
+		[](std::string_view setting_name, std::string_view component_name) {
+			return ecsact_statement{
+				.type = ECSACT_STATEMENT_SYSTEM_NOTIFY_COMPONENT,
+				.data{.system_notify_component_statement{
+					.setting_name{
+						.data = setting_name.data(),
+						.length = static_cast<int>(setting_name.size()),
+					},
+					.component_name{
+						.data = component_name.data(),
+						.length = static_cast<int>(component_name.size()),
+					},
+				}},
+			};
+		}
+	);
+};
+
 struct none_statement {
 	static constexpr auto rule = LEXY_LIT("");
 	static constexpr auto value = lexy::constant(ecsact_statement{
@@ -903,6 +958,7 @@ constexpr char system_level_statement_expected_message[] =
 using system_level_statement = statement<
 	system_level_statement_name,
 	system_level_statement_expected_message,
+	system_notify_statement,
 	system_component_statement,
 	generates_statement,
 	system_statement>;
@@ -913,6 +969,7 @@ constexpr char action_level_statement_expected_message[] =
 using action_level_statement = statement<
 	action_level_statement_name,
 	action_level_statement_expected_message,
+	system_notify_statement,
 	field_statement,
 	system_component_statement,
 	generates_statement,
@@ -1006,6 +1063,24 @@ constexpr char entity_constraint_level_statement_expected_message[] =
 using entity_constraint_level_statement = statement<
 	entity_constraint_level_statement_name,
 	entity_constraint_level_statement_expected_message,
+	none_statement>;
+
+constexpr char system_notify_level_statement_name[] =
+	"system notify level statement";
+constexpr char system_notify_level_statement_expected_message[] =
+	"expected system notify level statement";
+using system_notify_level_statement = statement<
+	system_notify_level_statement_name,
+	system_notify_level_statement_expected_message,
+	system_notify_component_statement>;
+
+constexpr char system_notify_component_level_statement_name[] =
+	"system notify component level statement";
+constexpr char system_notify_component_level_statement_expected_message[] =
+	"expected system notify component level statement";
+using system_notify_component_level_statement = statement<
+	system_notify_component_level_statement_name,
+	system_notify_component_level_statement_expected_message,
 	none_statement>;
 
 } // namespace ecsact::parse::detail::grammar
