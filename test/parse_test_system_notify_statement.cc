@@ -35,7 +35,6 @@ TEST(Parse, SystemNotifyLongForm) {
 		statement.data.system_notify_component_statement.component_name
 	);
 
-
 	STATEMENT_OK(&statement, SYSTEM_NOTIFY, "onchange AnotherComponent;");
 
 	EXPECT_EQ(statement.type, ECSACT_STATEMENT_SYSTEM_NOTIFY_COMPONENT);
