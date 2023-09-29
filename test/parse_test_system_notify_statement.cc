@@ -9,8 +9,8 @@
 using namespace std::string_literals;
 
 TEST(Parse, SystemNotifyShorthand) {
-	auto statement = ecsact_statement{};
-	STATEMENT_OK(&statement, SYSTEM, "notify always;");
+	PREPARE_TEST_STATEMENT();
+	STATEMENT_OK(SYSTEM, "notify always;");
 
 	EXPECT_EQ(statement.type, ECSACT_STATEMENT_SYSTEM_NOTIFY);
 
@@ -21,8 +21,8 @@ TEST(Parse, SystemNotifyShorthand) {
 }
 
 TEST(Parse, SystemNotifyLongForm) {
-	auto statement = ecsact_statement{};
-	STATEMENT_OK(&statement, SYSTEM_NOTIFY, "always ExampleComponent;");
+	PREPARE_TEST_STATEMENT();
+	STATEMENT_OK(SYSTEM_NOTIFY, "always ExampleComponent;");
 
 	EXPECT_EQ(statement.type, ECSACT_STATEMENT_SYSTEM_NOTIFY_COMPONENT);
 
@@ -35,7 +35,7 @@ TEST(Parse, SystemNotifyLongForm) {
 		statement.data.system_notify_component_statement.component_name
 	);
 
-	STATEMENT_OK(&statement, SYSTEM_NOTIFY, "onchange AnotherComponent;");
+	STATEMENT_OK(SYSTEM_NOTIFY, "onchange AnotherComponent;");
 
 	EXPECT_EQ(statement.type, ECSACT_STATEMENT_SYSTEM_NOTIFY_COMPONENT);
 
