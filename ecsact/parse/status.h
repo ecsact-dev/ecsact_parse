@@ -51,7 +51,7 @@ struct ecsact_parse_status {
 	ecsact_parse_status_code code;
 
 	/**
-	 * Character range of where error occured in statement string
+	 * Character range of where error occurred in statement string
 	 */
 	ecsact_statement_sv error_location;
 };

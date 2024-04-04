@@ -11,7 +11,7 @@ typedef struct {
 
 /**
  * Takes the `src` data and length and derives a copy onto `dst`. This assumes
- * the full data pointer points to a similarily formatted string thus the 'mock'
+ * the full data pointer points to a similarly formatted string thus the 'mock'
  * part of the function name. No memory allocation is done in this function.
  */
 inline void ecsact_statement_sv_mock_copy(
