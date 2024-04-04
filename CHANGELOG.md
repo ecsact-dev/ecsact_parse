@@ -2,6 +2,26 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.4.0 - 2024-04-04
+#### Miscellaneous Chores
+- **(deps)** update dependency bazel to v7.1.1 (#143) - (4064e07) - renovate[bot]
+- **(deps)** update hedron_compile_commands digest to eca42c6 (#139) - (8685ae9) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to ade23e0 (#138) - (5213cfc) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 7500623 (#135) - (b1c30d7) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 1e5f3c6 (#133) - (3a9389c) - renovate[bot]
+- **(deps)** update hedron_compile_commands digest to ac6411f (#132) - (32ad348) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 0a9feb7 (#131) - (ec01c16) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 42fa12b (#130) - (1a1fa84) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to a76d197 (#128) - (345cbdf) - renovate[bot]
+- **(deps)** update com_grail_bazel_toolchain digest to 91abcad (#127) - (bc15549) - renovate[bot]
+- fix typos (#147) - (3c8a724) - Ezekiel Warren
+- formatting (#146) - (ca73d9d) - Ezekiel Warren
+- update deps (#145) - (a1cbc52) - Ezekiel Warren
+- bzlmod updates - (0ba5a66) - Ezekiel Warren
+- sync with ecsact_common (#126) - (e86d662) - seaubot
+
+- - -
+
 ## 0.3.3 - 2023-09-29
 #### Features
 - system notify settings (#124) - (0a58abf) - Ezekiel Warren
