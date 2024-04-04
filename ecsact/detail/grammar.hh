@@ -891,13 +891,12 @@ struct statement {
 		auto statement_p = (lexyd::p<Grammar> | ...) | lexyd::p<unknown_statement> |
 			lexyd::p<none_statement> | lexyd::error<expected_statement>;
 
-		auto statement =
-			(lexyd::member<& statement_value::statement> = statement_p);
+		auto statement = (lexyd::member<&statement_value::statement> = statement_p);
 		auto statement_params =
-			(lexyd::member<& statement_value::_parameters> =
+			(lexyd::member<&statement_value::_parameters> =
 				 lexy::dsl::opt(lexyd::p<parameters>));
 		auto status =
-			(lexyd::member<& statement_value::status> = lexyd::p<parse_end>);
+			(lexyd::member<&statement_value::status> = lexyd::p<parse_end>);
 
 		return statement + statement_params + status;
 	}();
