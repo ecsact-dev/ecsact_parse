@@ -2,18 +2,28 @@
 
 #include <string_view>
 #include <string>
+#include <ranges>
+#include <array>
+#include <concepts>
 #include "ecsact/parse.h"
 
 using namespace std::string_literals;
+using namespace std::string_view_literals;
+
+template<typename R, typename V>
+concept RangeOf =
+	std::ranges::range<R> && std::same_as<std::ranges::range_value_t<R>, V>;
+
+constexpr auto empty_list = std::array<std::string_view, 0>{};
 
 void TestValidSystemComponent(
-	std::string_view         statement_str,
-	ecsact_system_capability expected_capability,
-	std::string_view         expected_component_name,
-	std::string_view         expected_with_entity_field_name = ""
+	std::string_view               statement_str,
+	ecsact_system_capability       expected_capability,
+	std::string_view               expected_component_name,
+	RangeOf<std::string_view> auto expected_with_field_names = empty_list
 ) {
-	auto             system_name = "ExampleSystem"s;
-	ecsact_statement component_statement{
+	auto system_name = "ExampleSystem"s;
+	auto context_statement = ecsact_statement{
 		.type = ECSACT_STATEMENT_SYSTEM,
 		.data{.system_statement{.system_name{
 			.data = system_name.data(),
@@ -27,13 +37,13 @@ void TestValidSystemComponent(
 	auto read_amount = ecsact_parse_statement(
 		statement_str.data(),
 		statement_str.size(),
-		&component_statement,
+		&context_statement,
 		&statement,
 		&status
 	);
 
+	ASSERT_EQ(status.code, ECSACT_PARSE_STATUS_OK);
 	ASSERT_EQ(statement.type, ECSACT_STATEMENT_SYSTEM_COMPONENT);
-	EXPECT_EQ(status.code, ECSACT_PARSE_STATUS_OK);
 
 	EXPECT_EQ(
 		expected_capability,
@@ -47,13 +57,20 @@ void TestValidSystemComponent(
 		)
 	);
 
-	EXPECT_EQ(
-		expected_with_entity_field_name,
-		std::string_view(
-			statement.data.system_component_statement.with_entity_field_name.data,
-			statement.data.system_component_statement.with_entity_field_name.length
-		)
+	ASSERT_EQ(
+		statement.data.system_component_statement.with_field_name_list_count,
+		expected_with_field_names.size()
 	);
+
+	for(int i = 0; std::size(expected_with_field_names) > i; ++i) {
+		EXPECT_EQ(
+			expected_with_field_names[i],
+			std::string_view(
+				statement.data.system_component_statement.with_field_name_list[i].data,
+				statement.data.system_component_statement.with_field_name_list[i].length
+			)
+		);
+	}
 
 	EXPECT_EQ(read_amount, statement_str.size());
 }
@@ -62,7 +79,8 @@ TEST(Parse, ReadonlySystemComponent) {
 	TestValidSystemComponent(
 		"readonly ExampleComponent;"s,
 		ECSACT_SYS_CAP_READONLY,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -70,7 +88,8 @@ TEST(Parse, WriteonlySystemComponent) {
 	TestValidSystemComponent(
 		"writeonly ExampleComponent;"s,
 		ECSACT_SYS_CAP_WRITEONLY,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -78,7 +97,8 @@ TEST(Parse, ReadwriteSystemComponent) {
 	TestValidSystemComponent(
 		"readwrite ExampleComponent;"s,
 		ECSACT_SYS_CAP_READWRITE,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -86,7 +106,8 @@ TEST(Parse, OptionalReadonlySystemComponent) {
 	TestValidSystemComponent(
 		"optional readonly ExampleComponent;"s,
 		ECSACT_SYS_CAP_OPTIONAL_READONLY,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -94,7 +115,8 @@ TEST(Parse, OptionalWriteonlySystemComponent) {
 	TestValidSystemComponent(
 		"optional writeonly ExampleComponent;"s,
 		ECSACT_SYS_CAP_OPTIONAL_WRITEONLY,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -102,7 +124,8 @@ TEST(Parse, OptionalReadwriteSystemComponent) {
 	TestValidSystemComponent(
 		"optional readwrite ExampleComponent;"s,
 		ECSACT_SYS_CAP_OPTIONAL_READWRITE,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -110,7 +133,8 @@ TEST(Parse, IncludeSystemComponent) {
 	TestValidSystemComponent(
 		"include ExampleComponent;"s,
 		ECSACT_SYS_CAP_INCLUDE,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -118,7 +142,8 @@ TEST(Parse, ExcludeSystemComponent) {
 	TestValidSystemComponent(
 		"exclude ExampleComponent;"s,
 		ECSACT_SYS_CAP_EXCLUDE,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -126,7 +151,8 @@ TEST(Parse, AddsSystemComponent) {
 	TestValidSystemComponent(
 		"adds ExampleComponent;"s,
 		ECSACT_SYS_CAP_ADDS,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -134,7 +160,8 @@ TEST(Parse, RemovesSystemComponent) {
 	TestValidSystemComponent(
 		"removes ExampleComponent;"s,
 		ECSACT_SYS_CAP_REMOVES,
-		"ExampleComponent"
+		"ExampleComponent",
+		empty_list
 	);
 }
 
@@ -147,7 +174,7 @@ TEST(Parse, ReadonlySystemComponentWithEntity) {
 		"readonly ExampleComponent with example_entity;"s,
 		ECSACT_SYS_CAP_READONLY,
 		"ExampleComponent",
-		"example_entity"
+		std::array{"example_entity"sv}
 	);
 }
 
@@ -156,7 +183,7 @@ TEST(Parse, WriteonlySystemComponentWithEntity) {
 		"writeonly ExampleComponent with example_entity;"s,
 		ECSACT_SYS_CAP_WRITEONLY,
 		"ExampleComponent",
-		"example_entity"
+		std::array{"example_entity"sv}
 	);
 }
 
@@ -165,7 +192,7 @@ TEST(Parse, ReadwriteSystemComponentWithEntity) {
 		"readwrite ExampleComponent with example_entity;"s,
 		ECSACT_SYS_CAP_READWRITE,
 		"ExampleComponent",
-		"example_entity"
+		std::array{"example_entity"sv}
 	);
 }
 
@@ -174,7 +201,7 @@ TEST(Parse, OptionalReadonlySystemComponentWithEntity) {
 		"optional readonly ExampleComponent with example_entity;"s,
 		ECSACT_SYS_CAP_OPTIONAL_READONLY,
 		"ExampleComponent",
-		"example_entity"
+		std::array{"example_entity"sv}
 	);
 }
 
@@ -183,7 +210,7 @@ TEST(Parse, OptionalWriteonlySystemComponentWithEntity) {
 		"optional writeonly ExampleComponent with example_entity;"s,
 		ECSACT_SYS_CAP_OPTIONAL_WRITEONLY,
 		"ExampleComponent",
-		"example_entity"
+		std::array{"example_entity"sv}
 	);
 }
 
@@ -192,7 +219,7 @@ TEST(Parse, OptionalReadwriteSystemComponentWithEntity) {
 		"optional readwrite ExampleComponent with example_entity;"s,
 		ECSACT_SYS_CAP_OPTIONAL_READWRITE,
 		"ExampleComponent",
-		"example_entity"
+		std::array{"example_entity"sv}
 	);
 }
 
@@ -201,7 +228,7 @@ TEST(Parse, IncludeSystemComponentWithEntity) {
 		"include ExampleComponent with example_entity;"s,
 		ECSACT_SYS_CAP_INCLUDE,
 		"ExampleComponent",
-		"example_entity"
+		std::array{"example_entity"sv}
 	);
 }
 
@@ -213,7 +240,8 @@ TEST(Parse, OtherPackageFullyQualified) {
 	TestValidSystemComponent(
 		"readwrite other.pkg.ExampleComponent;"s,
 		ECSACT_SYS_CAP_READWRITE,
-		"other.pkg.ExampleComponent"
+		"other.pkg.ExampleComponent",
+		empty_list
 	);
 }
 
@@ -222,6 +250,6 @@ TEST(Parse, IncludeSystemComponentWithEntityFullQualified) {
 		"include other.pkg.ExampleComponent with example_entity;"s,
 		ECSACT_SYS_CAP_INCLUDE,
 		"other.pkg.ExampleComponent",
-		"example_entity"
+		std::array{"example_entity"sv}
 	);
 }
