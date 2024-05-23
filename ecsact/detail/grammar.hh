@@ -159,7 +159,7 @@ struct parameters {
 	static constexpr auto rule = [] {
 		return lexy::dsl::parenthesized.list(
 			lexy::dsl::p<parameter>,
-			lexy::dsl::sep(lexy::dsl::comma)
+			lexy::dsl::trailing_sep(lexy::dsl::comma)
 		);
 	}();
 
@@ -671,7 +671,7 @@ struct system_component_statement {
 	struct with_fields : lexy::token_production {
 		static constexpr auto rule = lexy::dsl::list(
 			lexy::dsl::p<field_name>,
-			lexy::dsl::sep(lexy::dsl::comma)
+			lexy::dsl::trailing_sep(lexy::dsl::comma)
 		);
 		static constexpr auto value = lexy::as_list<std::vector<std::string_view>>;
 	};
@@ -774,7 +774,7 @@ struct with_statement {
 	struct with_fields : lexy::token_production {
 		static constexpr auto rule = lexy::dsl::list(
 			lexy::dsl::p<field_name>,
-			lexy::dsl::sep(lexy::dsl::comma)
+			lexy::dsl::trailing_sep(lexy::dsl::comma)
 		);
 		static constexpr auto value = lexy::as_list<std::vector<std::string_view>>;
 	};
