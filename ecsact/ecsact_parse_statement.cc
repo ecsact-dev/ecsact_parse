@@ -31,8 +31,8 @@ static auto context_grammar(ecsact_statement_type context_type, Fn&& fn) {
 			return fn(grammar::entity_field_level_statement{});
 		case ECSACT_STATEMENT_SYSTEM_COMPONENT:
 			return fn(grammar::system_component_level_statement{});
-		case ECSACT_STATEMENT_SYSTEM_WITH_ENTITY:
-			return fn(grammar::system_with_entity_level_statement{});
+		case ECSACT_STATEMENT_SYSTEM_WITH:
+			return fn(grammar::system_with_level_statement{});
 		case ECSACT_STATEMENT_PACKAGE:
 			return fn(grammar::package_level_statement{});
 		case ECSACT_STATEMENT_IMPORT:

@@ -1,5 +1,5 @@
-load("@rules_cc//cc:defs.bzl", "cc_test")
 load("@ecsact_parse//bazel:copts.bzl", "copts")
+load("@rules_cc//cc:defs.bzl", "cc_test")
 
 # keep sorted
 _TESTS = [
@@ -36,6 +36,7 @@ cc_library(
     deps = [
         ":parse_test_util",
         "@ecsact_parse",
+        "@magic_enum",
         "@googletest//:gtest",
         "@googletest//:gtest_main",
     ],

@@ -6,6 +6,9 @@
 #include "ecsact/runtime/common.h"
 #include "ecsact/runtime/definitions.h"
 
+/** Maximum number of 'with' fields that may be parsed */
+#define ECSACT_MAX_WITH_FIELDS 32
+
 typedef enum {
 	ECSACT_STATEMENT_NONE,
 	ECSACT_STATEMENT_UNKNOWN,
@@ -22,7 +25,7 @@ typedef enum {
 	ECSACT_STATEMENT_ENTITY_FIELD,
 	ECSACT_STATEMENT_SYSTEM_COMPONENT,
 	ECSACT_STATEMENT_SYSTEM_GENERATES,
-	ECSACT_STATEMENT_SYSTEM_WITH_ENTITY,
+	ECSACT_STATEMENT_SYSTEM_WITH,
 	ECSACT_STATEMENT_ENTITY_CONSTRAINT,
 	ECSACT_STATEMENT_SYSTEM_NOTIFY,
 	ECSACT_STATEMENT_SYSTEM_NOTIFY_COMPONENT,
@@ -83,12 +86,14 @@ typedef struct {
 typedef struct {
 	ecsact_system_capability capability;
 	ecsact_statement_sv      component_name;
-	ecsact_statement_sv      with_entity_field_name;
+	int                      with_field_name_list_count;
+	ecsact_statement_sv      with_field_name_list[ECSACT_MAX_WITH_FIELDS];
 } ecsact_system_component_statement;
 
 typedef struct {
-	ecsact_statement_sv with_entity_field_name;
-} ecsact_system_with_entity_statement;
+	int                 with_field_name_list_count;
+	ecsact_statement_sv with_field_name_list[ECSACT_MAX_WITH_FIELDS];
+} ecsact_system_with_statement;
 
 typedef struct {
 	bool                optional;
@@ -143,7 +148,7 @@ typedef union {
 	ecsact_field_statement                   field_statement;
 	ecsact_user_type_field_statement         user_type_field_statement;
 	ecsact_system_component_statement        system_component_statement;
-	ecsact_system_with_entity_statement      system_with_entity_statement;
+	ecsact_system_with_statement             system_with_statement;
 	ecsact_entity_constraint_statement       entity_constraint_statement;
 	ecsact_system_notify_statement           system_notify_statement;
 	ecsact_system_notify_component_statement system_notify_component_statement;

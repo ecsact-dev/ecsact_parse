@@ -668,17 +668,25 @@ struct system_component_statement {
 		static constexpr auto value = lexy::noop;
 	};
 
+	struct with_fields : lexy::token_production {
+		static constexpr auto rule = lexy::dsl::list(
+			lexy::dsl::p<field_name>,
+			lexy::dsl::sep(lexy::dsl::comma)
+		);
+		static constexpr auto value = lexy::as_list<std::vector<std::string_view>>;
+	};
+
 	static constexpr auto capability = lexy::dsl::p<filter> |
 		lexy::dsl::p<access> | lexy::dsl::p<assignment>;
 
 	static constexpr auto rule = capability >> lexy::dsl::p<type_name> >>
-		lexy::dsl::opt(lexy::dsl::p<with_keyword> >> lexy::dsl::p<field_name>);
+		lexy::dsl::opt(lexy::dsl::p<with_keyword> >> lexy::dsl::p<with_fields>);
 
 	static constexpr auto value = lexy::callback<ecsact_statement>(
 		[](
-			ecsact_system_capability        cap,
-			std::string_view                component_name,
-			std::optional<std::string_view> with_entity_field_name
+			ecsact_system_capability                     cap,
+			std::string_view                             component_name,
+			std::optional<std::vector<std::string_view>> with_entity_field_names
 		) {
 			ecsact_statement statement{
 				.type = ECSACT_STATEMENT_SYSTEM_COMPONENT,
@@ -691,10 +699,15 @@ struct system_component_statement {
 			data.component_name.data = component_name.data();
 			data.component_name.length = static_cast<int>(component_name.size());
 
-			if(with_entity_field_name) {
-				data.with_entity_field_name.data = with_entity_field_name->data();
-				data.with_entity_field_name.length =
-					static_cast<int>(with_entity_field_name->size());
+			if(with_entity_field_names) {
+				data.with_field_name_list_count =
+					static_cast<int>(with_entity_field_names->size());
+				for(int i = 0; data.with_field_name_list_count > i; ++i) {
+					data.with_field_name_list[i] = ecsact_statement_sv{
+						.data = (*with_entity_field_names)[i].data(),
+						.length = static_cast<int>((*with_entity_field_names)[i].size()),
+					};
+				}
 			}
 
 			return statement;
@@ -758,21 +771,35 @@ struct with_statement {
 		static constexpr auto value = lexy::noop;
 	};
 
-	static constexpr auto rule = lexy::dsl::p<with_keyword> >>
-		lexy::dsl::p<field_name>;
+	struct with_fields : lexy::token_production {
+		static constexpr auto rule = lexy::dsl::list(
+			lexy::dsl::p<field_name>,
+			lexy::dsl::sep(lexy::dsl::comma)
+		);
+		static constexpr auto value = lexy::as_list<std::vector<std::string_view>>;
+	};
 
-	static constexpr auto value =
-		lexy::callback<ecsact_statement>([](std::string_view field_name) {
+	static constexpr auto rule = lexy::dsl::p<with_keyword> >>
+		lexy::dsl::p<with_fields>;
+
+	static constexpr auto value = lexy::callback<ecsact_statement>(
+		[](std::vector<std::string_view> field_names) {
+			auto data = ecsact_system_with_statement{};
+			data.with_field_name_list_count = field_names.size();
+
+			for(int i = 0; data.with_field_name_list_count > i; ++i) {
+				data.with_field_name_list[i] = ecsact_statement_sv{
+					.data = field_names[i].data(),
+					.length = static_cast<int>(field_names[i].size()),
+				};
+			}
+
 			return ecsact_statement{
-				.type = ECSACT_STATEMENT_SYSTEM_WITH_ENTITY,
-				.data{.system_with_entity_statement{
-					.with_entity_field_name{
-						.data = field_name.data(),
-						.length = static_cast<int>(field_name.size()),
-					},
-				}},
+				.type = ECSACT_STATEMENT_SYSTEM_WITH,
+				.data{.system_with_statement{data}},
 			};
-		});
+		}
+	);
 };
 
 struct system_notify_statement {
@@ -1003,13 +1030,13 @@ using system_component_level_statement = statement<
 	system_component_statement,
 	with_statement>;
 
-constexpr char system_with_entity_level_statement_name[] =
+constexpr char system_with_level_statement_name[] =
 	"system with entity level statement";
-constexpr char system_with_entity_level_statement_expected_message[] =
+constexpr char system_with_level_statement_expected_message[] =
 	"expected system with entity level statement";
-using system_with_entity_level_statement = statement<
-	system_with_entity_level_statement_name,
-	system_with_entity_level_statement_expected_message,
+using system_with_level_statement = statement<
+	system_with_level_statement_name,
+	system_with_level_statement_expected_message,
 	system_component_statement,
 	with_statement>;
 
