@@ -2,6 +2,16 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.5.0 - 2024-05-23
+#### Features
+- allow multiple 'with' fields (#153) - (bf238e3) - Ezekiel Warren
+#### Miscellaneous Chores
+- remove bazel lock file - (a7b28ab) - Ezekiel Warren
+- sync with ecsact_common (#148) - (f29e01a) - seaubot
+- sync with ecsact_common (#144) - (090ed5e) - seaubot
+
+- - -
+
 ## 0.4.0 - 2024-04-04
 #### Miscellaneous Chores
 - **(deps)** update dependency bazel to v7.1.1 (#143) - (4064e07) - renovate[bot]
