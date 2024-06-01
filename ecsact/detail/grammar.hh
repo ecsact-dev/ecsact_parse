@@ -106,9 +106,16 @@ struct parameter_value {
 		static constexpr auto value = lexy::forward<bool>;
 	};
 
-	static constexpr auto rule = lexy::dsl::p<number> | lexy::dsl::p<boolean>;
+	struct string {
+		static constexpr auto rule = lexy::dsl::identifier(lexy::dsl::ascii::alpha);
+		static constexpr auto value =
+			lexy::as_string<std::string_view, lexy::ascii_encoding>;
+	};
 
-	using value_variant = std::variant<bool, int32_t>;
+	static constexpr auto rule = lexy::dsl::p<number> | lexy::dsl::p<boolean> |
+		lexy::dsl::p<string>;
+
+	using value_variant = std::variant<bool, int32_t, std::string_view>;
 
 	static constexpr auto value = lexy::callback<value_variant>(
 		[](auto&& value) -> value_variant { return value_variant{value}; }
@@ -126,6 +133,17 @@ struct parameter {
 	static void _set_value(ecsact_statement_parameter& param, bool value) {
 		param.value.type = ECSACT_STATEMENT_PARAM_VALUE_TYPE_BOOL;
 		param.value.data.bool_value = value;
+	}
+
+	static void _set_value(
+		ecsact_statement_parameter& param,
+		std::string_view            value
+	) {
+		param.value.type = ECSACT_STATEMENT_PARAM_VALUE_TYPE_STRING;
+		param.value.data.string_value = ecsact_statement_sv{
+			.data = value.data(),
+			.length = static_cast<int>(value.size()),
+		};
 	}
 
 	static constexpr auto rule = lexy::dsl::p<parameter_name> >>
