@@ -8,6 +8,7 @@
 #include "ecsact/parse.h"
 
 using namespace std::string_literals;
+using namespace std::string_view_literals;
 
 using test_param_expected = std::vector<std::tuple<
 	std::string,
@@ -62,11 +63,11 @@ void test_param(std::string params, test_param_expected expected) {
 				break;
 			case ECSACT_STATEMENT_PARAM_VALUE_TYPE_STRING:
 				EXPECT_EQ(
-					std::string(
+					std::string_view(
 						expected_value.string_value.data,
 						static_cast<size_t>(expected_value.string_value.length)
 					),
-					std::string(
+					std::string_view(
 						statement.parameters[i].value.data.string_value.data,
 						static_cast<size_t>(
 							statement.parameters[i].value.data.string_value.length
@@ -186,6 +187,19 @@ TEST(Parse, MultiParam) {
 				"optimized"s,
 				ECSACT_STATEMENT_PARAM_VALUE_TYPE_BOOL,
 				ecsact_statement_parameter_value_data{.bool_value = false}
+			),
+		}
+	);
+
+	test_param(
+		"(cool_str_param: whatup)",
+		{
+			std::make_tuple(
+				"cool_str_param"s,
+				ECSACT_STATEMENT_PARAM_VALUE_TYPE_STRING,
+				ecsact_statement_parameter_value_data{
+					.string_value{"whatup"sv.data(), "whatup"sv.size()}
+				}
 			),
 		}
 	);
