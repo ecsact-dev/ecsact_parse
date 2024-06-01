@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.5.1 - 2024-06-01
+#### Features
+- allow string parameters (#155) - (bd27d48) - Ezekiel Warren
+
+- - -
+
 ## 0.5.0 - 2024-05-23
 #### Features
 - allow multiple 'with' fields (#153) - (bf238e3) - Ezekiel Warren
