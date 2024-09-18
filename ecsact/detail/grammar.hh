@@ -645,6 +645,11 @@ struct system_component_statement {
 		static constexpr auto value = lexy::constant(ECSACT_SYS_CAP_REMOVES);
 	};
 
+	struct stream_toggle_keyword : lexy::token_production {
+		static constexpr auto rule = LEXY_LIT("stream_toggle");
+		static constexpr auto value = lexy::constant(ECSACT_SYS_CAP_STREAM_TOGGLE);
+	};
+
 	struct filter {
 		static constexpr auto rule = lexy::dsl::p<include_keyword> |
 			lexy::dsl::p<exclude_keyword>;
