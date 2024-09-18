@@ -700,7 +700,8 @@ struct system_component_statement {
 	};
 
 	static constexpr auto capability = lexy::dsl::p<filter> |
-		lexy::dsl::p<access> | lexy::dsl::p<assignment>;
+		lexy::dsl::p<access> | lexy::dsl::p<assignment> |
+		lexy::dsl::p<stream_toggle_keyword>;
 
 	static constexpr auto rule = capability >> lexy::dsl::p<type_name> >>
 		lexy::dsl::opt(lexy::dsl::p<with_keyword> >> lexy::dsl::p<with_fields>);
