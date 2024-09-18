@@ -165,6 +165,15 @@ TEST(Parse, RemovesSystemComponent) {
 	);
 }
 
+TEST(Parse, StreamToggleSystemComponent) {
+	TestValidSystemComponent(
+		"stream_toggle ExampleComponent;"s,
+		ECSACT_SYS_CAP_STREAM_TOGGLE,
+		"ExampleComponent",
+		empty_list
+	);
+}
+
 ///////////////////////////////////
 // 'with' keyword                //
 ///////////////////////////////////
