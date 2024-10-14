@@ -2,6 +2,22 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.5.2 - 2024-10-14
+#### Miscellaneous Chores
+- **(deps)** update dependency ecsact_runtime to v0.6.9 (#166) - (c94f28d) - renovate[bot]
+- **(deps)** update dependency ecsact_runtime to v0.6.8 (#164) - (4393f6a) - renovate[bot]
+- **(deps)** update dependency ecsact_runtime to v0.6.7 (#160) - (8c4416c) - renovate[bot]
+- **(deps)** update dependency ecsact_runtime to v0.6.6 (#125) - (178c1b8) - renovate[bot]
+- update ecsact_runtime - (65b6bf1) - Ezekiel Warren
+- update llvm to 19 (#168) - (148ffac) - Ezekiel Warren
+- sync with ecsact_common (#165) - (dc45e37) - seaubot
+- update readme logo - (65e7d47) - Ezekiel Warren
+- sync with ecsact_common (#159) - (11f0744) - seaubot
+- sync with ecsact_common (#158) - (f3d3a12) - seaubot
+- sync with ecsact_common (#157) - (584992e) - seaubot
+
+- - -
+
 ## 0.5.1 - 2024-06-01
 #### Features
 - allow string parameters (#155) - (bd27d48) - Ezekiel Warren
