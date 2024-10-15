@@ -2,6 +2,12 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.5.4 - 2024-10-15
+#### Features
+- stream toggle keyword (#167) - (4dd05d4) - Ezekiel Warren
+
+- - -
+
 ## 0.5.2 - 2024-10-14
 #### Miscellaneous Chores
 - **(deps)** update dependency ecsact_runtime to v0.6.9 (#166) - (c94f28d) - renovate[bot]
