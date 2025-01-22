@@ -2,6 +2,15 @@
 All notable changes to this project will be documented in this file. See [conventional commits](https://www.conventionalcommits.org/) for commit guidelines.
 
 - - -
+## 0.5.5 - 2025-01-22
+#### Miscellaneous Chores
+- **(deps)** update dependency ecsact_runtime to v0.7.1 (#171) - (a267da5) - renovate[bot]
+- allow ecsact_runtime 0.8.x - (22525f5) - Ezekiel Warren
+- sync with ecsact_common (#170) - (3b4785a) - Ezekiel Warren
+- remove local path override - (ef6edc6) - Ezekiel Warren
+
+- - -
+
 ## 0.5.4 - 2024-10-15
 #### Features
 - stream toggle keyword (#167) - (4dd05d4) - Ezekiel Warren
